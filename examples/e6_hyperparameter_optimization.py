@@ -30,6 +30,7 @@ def optimize_model():
 
 
     # Using a randomized search
+    # With RandomizedSearchCV, we can use distributions instead of lists: https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.RandomizedSearchCV.html
     clf = RandomizedSearchCV(DecisionTreeRegressor(), distributions, n_iter=10, cv=5, verbose=1)
     search = clf.fit(X_train, y_train)
 

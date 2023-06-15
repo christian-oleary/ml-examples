@@ -6,6 +6,8 @@ from e3_metrics import classification_scores
 
 # Recommended reading: https://scikit-learn.org/stable/modules/cross_validation.html
 
+# For time series data, see: https://scikit-learn.org/stable/modules/cross_validation.html#cross-validation-of-time-series-data
+
 def holdout():
     # Create a dataset and a model
     _, X, y = create_classification_dataset()

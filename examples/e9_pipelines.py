@@ -25,7 +25,6 @@ def build_pipeline(model_name):
         'feature_selector__k': [1, 2, 3] # Probably not useful in this example. For demonstration only
         }
 
-
     class Debugger(BaseEstimator, TransformerMixin):
         def __init__(self, name=''):
             self.name = name

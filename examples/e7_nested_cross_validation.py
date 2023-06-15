@@ -35,7 +35,7 @@ def nested_cv():
         y_train, y_test = y[train_index], y[test_index]
 
         # Inner CV (Train and test model)
-        search = RandomizedSearchCV(DecisionTreeRegressor(), param_distributions=distributions, n_iter=10, verbose=1)
+        search = RandomizedSearchCV(DecisionTreeRegressor(), param_distributions=distributions, n_iter=10, cv=5, verbose=1)
         search_result = search.fit(X_train, y_train)
         best_pipeline = search_result.best_estimator_ # Can reference the best estimator directly if neeed
         preds = best_pipeline.predict(X_test)

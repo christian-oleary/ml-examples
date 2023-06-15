@@ -49,3 +49,10 @@ Programming:
 - Try to limit code repetition as much as possible
 - Back up code, preferably in a repository using a website such as GitHub
 - Use informative function/class/variable names
+
+## Recommended Reading
+
+<https://machinelearningmastery.com/multi-output-regression-models-with-python/>
+<https://scikit-learn.org/stable/modules/generated/sklearn.multioutput.MultiOutputRegressor.html>
+<https://machinelearningmastery.com/multi-step-time-series-forecasting/>
+<https://machinelearningmastery.com/basic-feature-engineering-time-series-data-python/>

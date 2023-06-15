@@ -29,6 +29,7 @@ models_example = {
     ),
 }
 
+
 regression_models = {
     BayesianRidge.__name__: (BayesianRidge, {
         'n_iter': [150, 300, 450],
@@ -234,7 +235,7 @@ if __name__ == '__main__':
     _, X, y = create_regression_dataset()
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
 
-    for model_name, elements in models_example.items():
+    for model_name, elements in regression_models.items():
         print('\n', model_name)
         model = elements[0]() # Constructor
         distributions = elements[1] # hyperparameter search space
@@ -246,4 +247,3 @@ if __name__ == '__main__':
         scores = regression_scores(y_test, predictions)
         print(scores['R2'])
 
-        break

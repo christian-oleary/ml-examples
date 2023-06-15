@@ -40,6 +40,7 @@ class DNN:
     }
 
     def __init__(self, **kwargs):
+        # Get values or assign default values if missing
         self.architecture = kwargs.get('architecture', (64, 32))
         self.batch_normalization = kwargs.get('batch_normalization', True)
         self.batch_size = kwargs.get('batch_size', 32)
@@ -135,6 +136,7 @@ class ExampleModel:
     search_space = {}
 
     def __init__(self, **kwargs):
+        # initialize the model here
         pass
 
     def fit(self, X, y):
