@@ -7,7 +7,10 @@ def create_regression_dataset():
 
     :return: DataFrame of regression data
     """
-    bike_sharing = fetch_openml('Bike_Sharing_Demand', version=2, as_frame=True, parser='auto')
+    try:
+        bike_sharing = fetch_openml('Bike_Sharing_Demand', version=2, as_frame=True, parser='auto')
+    except: # for older versions of sklearn
+        bike_sharing = fetch_openml('Bike_Sharing_Demand', version=2, as_frame=True)
     df = bike_sharing.frame
     df = df.head(200) # Take first 200 rows
     df = df[['temp', 'feel_temp', 'humidity', 'windspeed']]  # Take 4 columns
