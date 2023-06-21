@@ -1,8 +1,5 @@
 from sklearn.base import BaseEstimator, TransformerMixin
-from sklearn.calibration import LinearSVC
 from sklearn.discriminant_analysis import StandardScaler
-from sklearn.dummy import DummyClassifier, DummyRegressor
-from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 from sklearn.feature_selection import SelectKBest, f_regression
 from sklearn.model_selection import RandomizedSearchCV, train_test_split
 from sklearn.pipeline import Pipeline
