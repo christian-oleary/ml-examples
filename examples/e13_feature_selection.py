@@ -1,5 +1,6 @@
 import os
 
+import matplotlib.pyplot as plt
 import pandas as pd
 from scipy import stats
 from sklearn.feature_selection import SelectKBest, f_regression, mutual_info_regression
@@ -16,6 +17,7 @@ def feature_scoring_example(output_dir='feature_scores'):
     os.makedirs(output_dir, exist_ok=True) # Make a directory called feature_scores
 
     def plot_scores(scoring_function, filename):
+        # Get feature scores
         if scoring_function == None:
             results = []
             for col in X.columns:
@@ -30,11 +32,16 @@ def feature_scoring_example(output_dir='feature_scores'):
             _ = selector.fit_transform(X, y)
             weights = pd.DataFrame({'feature': X.columns, 'score': selector.scores_})
 
+        # Sort by score and save to file
+        weights = weights.sort_values('score', ascending=False)
         weights.to_csv(os.path.join(output_dir, f'{filename}.csv'))
-        plot = weights.plot(title=filename)
+
+        # Create plot
+        plot = weights.plot(x='feature', y='score', title=filename, kind='bar')
         fig = plot.get_figure()
         plot.set_xlabel('Features')
         plot.set_ylabel('Score')
+        plt.tight_layout()
         fig.savefig(os.path.join(output_dir, f'{filename}.png'))
 
     plot_scores(f_regression, 'f_regression')
