@@ -31,6 +31,9 @@ def daily_statistics(input_path=None, output_path='df_daily.csv'):
     for col in columns:
         df[col] = pd.to_numeric(df[col], errors='coerce')
     df = df.astype(float)
+
+    # Impute missing values
+    # Can also use: http://scikit-learn.org/stable/modules/generated/sklearn.impute.IterativeImputer.html
     df = SimpleImputer(missing_values=np.nan, strategy='mean').fit_transform(df)
     df = pd.DataFrame(df, index=index, columns=columns)
 
@@ -73,13 +76,15 @@ def time_series_to_tabular():
         :param lag: Lookback window (int)
         """
         for col in df.columns:
-            if col != target:
-                for i in range(1, lag+1):
-                    df[f'{col}-{i}'] = df[col].shift(i)
+            for i in range(1, lag+1):
+                df[f'{col}-{i}'] = df[col].shift(i)
 
+            # Drop non-target values (we only keep historical feature values)
+            if col != target:
                 df = df.drop(col, axis=1)
 
         # OPTIONAL: Drop first N rows where N = lag
+        # Alternatively, we could impute the missing data
         df = df.iloc[lag:]
         return df
 
@@ -91,7 +96,7 @@ def time_series_to_tabular():
             df[col_name] = df[target].shift(-i)
             targets.append(col_name)
 
-        # Drop rows missing future target values
+        # Optional: Drop rows missing future target values
         df = df[df[targets[-1]].notna()]
         return df, targets
 
