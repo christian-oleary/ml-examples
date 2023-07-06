@@ -68,6 +68,7 @@ def time_series_to_tabular():
     LAG = 6 # This is how far back we want to look for features
     HORIZON = 3 # This is how far forward we want forecast
 
+    # Look up ACF plots
 
     def create_lag_features(df, target, lag):
         """Create features for our ML model (X matrix).
@@ -138,14 +139,14 @@ def forecasting_example():
     """
     X, y = time_series_to_tabular()
 
-    # Using a model
+    # 1. Simple example using a model
     print('\nTraining model')
     model = MultiOutputRegressor(LinearRegression())
     model.fit(X, y)
     preds = model.predict(X)
     print('Model works')
 
-    # Using a pipeline and RandomizedSearchCV
+    # 2. Another example using a pipeline and RandomizedSearchCV
     print('\nTraining pipeline')
     scaler_space = { f'scaler__norm': ['l1', 'l2', 'max'] }
     feature_selector_space = { f'multioutput__estimator__feature_selector__k': [1, 2, 3] }

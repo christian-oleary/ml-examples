@@ -11,6 +11,10 @@ from e8_handling_models import regression_models
 
 
 def build_pipeline(model_name):
+    """Build and test a scikit-learn Pipeline object"""
+
+    # Read this: https://scikit-learn.org/stable/modules/compose.html#pipeline
+
     # Create dataset
     _, X, y = create_regression_dataset()
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
@@ -21,6 +25,14 @@ def build_pipeline(model_name):
         **model_space,
         'feature_selector__k': [1, 2, 3] # Probably not useful in this example. For demonstration only
         }
+
+    # The "distributions" dictionary will look like this:
+    # {
+    #     'model__criterion': ['absolute_error', 'friedman_mse', 'squared_error'],
+    #     'model__splitter': ['best', 'random'],
+    #     'model__max_depth': [8, 16, 32, 64, 128, None],
+    #     'feature_selector__k': [1, 2, 3]
+    # }
 
     class Debugger(BaseEstimator, TransformerMixin):
         def __init__(self, name=''):
@@ -39,7 +51,6 @@ def build_pipeline(model_name):
         ('feature_selector', SelectKBest(f_regression)), # Use if you have too many (unhelpful) features
         ('model', DecisionTreeRegressor()),
     ])
-
 
     # Train models
     clf = RandomizedSearchCV(pipeline, distributions, n_iter=10, cv=5, verbose=1)
