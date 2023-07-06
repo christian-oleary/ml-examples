@@ -3,6 +3,7 @@ import os
 import matplotlib.pyplot as plt
 import pandas as pd
 from scipy import stats
+import seaborn as sns
 from sklearn.feature_selection import SelectKBest, f_regression, mutual_info_regression
 
 from e1_create_dataset import create_regression_dataset
@@ -12,7 +13,7 @@ from e1_create_dataset import create_regression_dataset
 
 
 def feature_scoring_example(output_dir='feature_scores'):
-    _, X, y = create_regression_dataset()
+    df, X, y = create_regression_dataset()
 
     os.makedirs(output_dir, exist_ok=True) # Make a directory called feature_scores
 
@@ -47,6 +48,14 @@ def feature_scoring_example(output_dir='feature_scores'):
     plot_scores(f_regression, 'f_regression')
     plot_scores(mutual_info_regression, 'mutual_info_regression')
     plot_scores(None, 'pearsonr')
+
+    # Finally, create a correlation heatmap
+    plt.clf()
+    fig, ax = plt.subplots(figsize=(10,10))
+    corr = df.corr()
+    heatmap = sns.heatmap(corr, cmap="Blues", annot=True)
+    fig = heatmap.get_figure()
+    fig.savefig(os.path.join(output_dir, f'heatmap.png'), dpi=400)
 
 if __name__ == '__main__':
     feature_scoring_example()
