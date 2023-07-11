@@ -50,12 +50,14 @@ def daily_statistics(input_path=None, output_path='df_daily.csv'):
     df_daily = pd.concat([df_daily_mean, df_daily_min, df_daily_max], axis=1)
 
     # Provide columns names. This works even if multiple input columns existed in df
-    column_names = []
+    mean_column_names = []
+    min_column_names = []
+    max_column_names = []
     for col in df.columns:
-        column_names.append(f'Mean_{col}')
-        column_names.append(f'Minimum_{col}')
-        column_names.append(f'Maximum_{col}')
-    df_daily.columns = column_names
+        mean_column_names.append(f'Mean_{col}')
+        min_column_names.append(f'Minimum_{col}')
+        max_column_names.append(f'Maximum_{col}')
+    df_daily.columns = mean_column_names + min_column_names + max_column_names
 
     # print(df_daily.shape) # It is a good idea to check shapes
     df_daily.to_csv(output_path)
@@ -69,6 +71,12 @@ def time_series_to_tabular():
     HORIZON = 3 # This is how far forward we want forecast
 
     # Look up ACF plots
+
+    # Fill in missing values
+    cols = df.columns
+    index = df.index
+    df = SimpleImputer(missing_values=np.nan, strategy='mean').fit_transform(df)
+    df = pd.DataFrame(df, columns=cols, index=index) # convert back to dataframe
 
     def create_lag_features(df, target, lag):
         """Create features for our ML model (X matrix).
