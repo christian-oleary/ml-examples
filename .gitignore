@@ -1,6 +1,7 @@
 *.png
 *.csv
 *.joblib
+*.png
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

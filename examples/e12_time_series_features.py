@@ -31,6 +31,9 @@ def daily_statistics(input_path=None, output_path='df_daily.csv'):
     for col in columns:
         df[col] = pd.to_numeric(df[col], errors='coerce')
     df = df.astype(float)
+
+    # Impute missing values
+    # Can also use: http://scikit-learn.org/stable/modules/generated/sklearn.impute.IterativeImputer.html
     df = SimpleImputer(missing_values=np.nan, strategy='mean').fit_transform(df)
     df = pd.DataFrame(df, index=index, columns=columns)
 
@@ -47,12 +50,14 @@ def daily_statistics(input_path=None, output_path='df_daily.csv'):
     df_daily = pd.concat([df_daily_mean, df_daily_min, df_daily_max], axis=1)
 
     # Provide columns names. This works even if multiple input columns existed in df
-    column_names = []
+    mean_column_names = []
+    min_column_names = []
+    max_column_names = []
     for col in df.columns:
-        column_names.append(f'Mean_{col}')
-        column_names.append(f'Minimum_{col}')
-        column_names.append(f'Maximum_{col}')
-    df_daily.columns = column_names
+        mean_column_names.append(f'Mean_{col}')
+        min_column_names.append(f'Minimum_{col}')
+        max_column_names.append(f'Maximum_{col}')
+    df_daily.columns = mean_column_names + min_column_names + max_column_names
 
     # print(df_daily.shape) # It is a good idea to check shapes
     df_daily.to_csv(output_path)
@@ -65,6 +70,13 @@ def time_series_to_tabular():
     LAG = 6 # This is how far back we want to look for features
     HORIZON = 3 # This is how far forward we want forecast
 
+    # Look up ACF plots
+
+    # Fill in missing values
+    cols = df.columns
+    index = df.index
+    df = SimpleImputer(missing_values=np.nan, strategy='mean').fit_transform(df)
+    df = pd.DataFrame(df, columns=cols, index=index) # convert back to dataframe
 
     def create_lag_features(df, target, lag):
         """Create features for our ML model (X matrix).
@@ -73,13 +85,15 @@ def time_series_to_tabular():
         :param lag: Lookback window (int)
         """
         for col in df.columns:
-            if col != target:
-                for i in range(1, lag+1):
-                    df[f'{col}-{i}'] = df[col].shift(i)
+            for i in range(1, lag+1):
+                df[f'{col}-{i}'] = df[col].shift(i)
 
+            # Drop non-target values (we only keep historical feature values)
+            if col != target:
                 df = df.drop(col, axis=1)
 
         # OPTIONAL: Drop first N rows where N = lag
+        # Alternatively, we could impute the missing data
         df = df.iloc[lag:]
         return df
 
@@ -91,7 +105,7 @@ def time_series_to_tabular():
             df[col_name] = df[target].shift(-i)
             targets.append(col_name)
 
-        # Drop rows missing future target values
+        # Optional: Drop rows missing future target values
         df = df[df[targets[-1]].notna()]
         return df, targets
 
@@ -133,14 +147,14 @@ def forecasting_example():
     """
     X, y = time_series_to_tabular()
 
-    # Using a model
+    # 1. Simple example using a model
     print('\nTraining model')
     model = MultiOutputRegressor(LinearRegression())
     model.fit(X, y)
     preds = model.predict(X)
     print('Model works')
 
-    # Using a pipeline and RandomizedSearchCV
+    # 2. Another example using a pipeline and RandomizedSearchCV
     print('\nTraining pipeline')
     scaler_space = { f'scaler__norm': ['l1', 'l2', 'max'] }
     feature_selector_space = { f'multioutput__estimator__feature_selector__k': [1, 2, 3] }
