@@ -2,6 +2,12 @@
 
 Machine Learning Examples
 
+Installation:
+
+```bash
+pip install -r requirements.txt
+```
+
 ## Concepts
 
 Machine Learning:
