@@ -126,12 +126,24 @@ def time_series_to_tabular():
     print('\nShape of X (features):', X.shape)
     print('Shape of y (target(s)):', y.shape)
 
-    # Add features to capture hour of day. Try also: .day_of_year, .day_of_week, etc.
+    # Add features to capture hour-of-day
     # Read: https://pandas.pydata.org/docs/reference/api/pandas.DatetimeIndex.html
     X['hour'] = X.index.hour
     X['sin_hour'] = np.sin(2 * np.pi * X['hour'].apply(lambda ts: int(ts))/24.0)
     X['cos_hour'] = np.cos(2 * np.pi * X['hour'].apply(lambda ts: int(ts))/24.0)
     del X['hour'] # Optional
+
+    # An alternative for day-of-year:
+    # X['day_of_year'] = X.index.day_of_year
+    # X['sin_day_of_year'] = np.sin(2 * np.pi * X['day_of_year'].apply(lambda ts: int(ts))/365.0)
+    # X['cos_day_of_year'] = np.cos(2 * np.pi * X['day_of_year'].apply(lambda ts: int(ts))/365.0)
+    # del X['day_of_year']
+
+    # An alternative for day-of-week:
+    # X['weekday'] = X.index.weekday
+    # X['sin_weekday'] = np.sin(2 * np.pi * X['weekday'].apply(lambda ts: int(ts))/7.0)
+    # X['cos_weekday'] = np.cos(2 * np.pi * X['weekday'].apply(lambda ts: int(ts))/7.0)
+    # del X['weekday']
 
     # Examine the shapes of the created dataframes and arrays.
     # Look at the column names, e.g.: "print(df.columns)"

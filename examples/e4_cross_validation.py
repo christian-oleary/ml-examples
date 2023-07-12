@@ -35,7 +35,7 @@ def cross_validation():
     # Train and evaluate the model
     # See other scoring metrics here: https://scikit-learn.org/stable/modules/model_evaluation.html#scoring-parameter
     cv_results = cross_validate(DecisionTreeClassifier(), X, y, cv=5, scoring='accuracy', return_train_score=True)
-    print('\nTraining score:', cv_results['train_score'].mean())
+    print('\nValidationscore:', cv_results['train_score'].mean())
     print('Testing scores:', cv_results['test_score'])
     print('Testing scores (averaged):', cv_results['test_score'].mean())
 
@@ -44,6 +44,6 @@ if __name__ == '__main__':
     holdout()
     cross_validation()
 
-    # Which scores are better?
-    # Why do the cross-validation scores vary?
+    # Which scores are better, holdout or CV?
+    # Why do the cross-validation scores vary, i.e. the 5 scores of the different 'folds'?
     # How do these scores compare to the previous exercise?
