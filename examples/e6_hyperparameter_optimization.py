@@ -1,3 +1,5 @@
+import os
+import pandas as pd
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV, train_test_split
 from sklearn.tree import DecisionTreeRegressor
 
@@ -43,6 +45,15 @@ def optimize_model():
 
     # See also: https://github.com/bayesian-optimization/BayesianOptimization
 
+    # You can save the results of the search if you want to examine how hyperparameters affect the model's performance:
+    inner_cv_results = pd.DataFrame(search.cv_results_)
+    del inner_cv_results['params']
+    filename = 'inner_cv_results.csv'
+    inner_cv_results.to_csv(filename, mode='a', header=not os.path.exists(filename), index=False)
+
+    # E.g. get correlation between validation score and Max. Depth of Decision Tree
+    correlation = inner_cv_results['mean_test_score'].corr(inner_cv_results['param_max_depth'].astype(float))
+    print('\nCorrelation between validation score and Max. Depth parameter:', round(correlation, 2))
 
 
 if __name__ == '__main__':

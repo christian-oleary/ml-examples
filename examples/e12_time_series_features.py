@@ -3,6 +3,7 @@ import pandas as pd
 from sklearn.feature_selection import SelectKBest, f_regression
 from sklearn.impute import SimpleImputer
 from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_absolute_error
 from sklearn.model_selection import RandomizedSearchCV
 from sklearn.multioutput import MultiOutputRegressor
 from sklearn.pipeline import Pipeline
@@ -191,12 +192,26 @@ def forecasting_example():
     preds = clf.predict(X)
     print('Pipeline works\n')
 
+    return preds, y
+
+
+def multioutput_metrics(y_test, y_pred):
+    MAE = mean_absolute_error(y_test, y_pred, multioutput='raw_values')
+    print('\nMAE', MAE)
+    # How many values are in MAE? Check horizon
+
 
 if __name__ == '__main__':
     daily_statistics(output_path='df_daily.csv')
     # daily_statistics(input_path='hourly_data.csv', output_path='hourly_data_statistics.csv')
 
+    print('\n--- TS TO TABULAR ---')
     time_series_to_tabular()
 
-    forecasting_example()
+    print('\n--- FORECASTING EXAMPLE ---')
+    y_test, y_pred = forecasting_example()
 
+    print('\n--- MULTIOUTPUT METRICS ---')
+    multioutput_metrics(y_test, y_pred)
+
+    print()
