@@ -11,7 +11,6 @@ from e1_create_dataset import create_regression_dataset
 
 # For an example of using feature selection in a pipeline, see example e9_pipelines.py
 
-
 def feature_scoring_example(output_dir='feature_scores'):
     df, X, y = create_regression_dataset()
 
