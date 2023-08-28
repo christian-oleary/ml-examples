@@ -11,7 +11,9 @@ from e1_create_dataset import create_regression_dataset
 
 # For an example of using feature selection in a pipeline, see example e9_pipelines.py
 
-def feature_scoring_example(output_dir='feature_scores'):
+def feature_scoring_regression(output_dir='feature_scores'):
+    """Feature scoring for a regression target"""
+
     df, X, y = create_regression_dataset()
 
     os.makedirs(output_dir, exist_ok=True) # Make a directory called feature_scores
@@ -22,14 +24,14 @@ def feature_scoring_example(output_dir='feature_scores'):
             results = []
             for col in X.columns:
                 try:
-                    weight = abs(stats.pearsonr(X[col], y.iloc[:,0])[0])
+                    weight = abs(stats.pearsonr(X[col], y.iloc[:,0])[0]) # This handles y having multiple columns
                 except:
                     weight = abs(stats.pearsonr(X[col], y)[0])
                 results.append({ 'feature': col, 'score': weight })
             weights = pd.DataFrame(results)
         else:
             selector = SelectKBest(scoring_function, k=3)
-            _ = selector.fit_transform(X, y)
+            selector.fit_transform(X, y)
             weights = pd.DataFrame({'feature': X.columns, 'score': selector.scores_})
 
         # Sort by score and save to file
@@ -50,11 +52,14 @@ def feature_scoring_example(output_dir='feature_scores'):
 
     # Finally, create a correlation heatmap
     plt.clf()
-    fig, ax = plt.subplots(figsize=(10,10))
+    fig, _ = plt.subplots(figsize=(10,10))
     corr = df.corr()
     heatmap = sns.heatmap(corr, cmap="Blues", annot=True)
     fig = heatmap.get_figure()
     fig.savefig(os.path.join(output_dir, f'heatmap.png'), dpi=400)
 
 if __name__ == '__main__':
-    feature_scoring_example()
+    feature_scoring_regression()
+
+    # As an exercise, how would you adapt the code to work with a classification target?
+    # Clue: consider the scoring functions
