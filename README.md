@@ -56,6 +56,22 @@ Programming:
 - Back up code, preferably in a repository using a website such as GitHub
 - Use informative function/class/variable names
 
+## Useful Visual Studio Code Extensions
+
+- autoDocstring - Python Docstring Generator
+- autopep8
+- Excel Viewer
+- FreeMarker
+- Git
+- indent-rainbow
+- Jupyter
+- markdownlint
+- Markdown Language Features
+- Path Intellisense
+- Python
+- Python Indent
+- Trailing Spaces
+
 ## Recommended Reading
 
 <https://machinelearningmastery.com/multi-output-regression-models-with-python/>
