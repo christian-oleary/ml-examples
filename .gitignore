@@ -1,7 +1,44 @@
-*.png
+# Project specific additions:
+docs/
+
 *.csv
 *.joblib
 *.png
+*.txt
+*.ignore
+
+!requirements.txt
+
+####################################################
+## Added from https://github.com/github/gitignore ##
+####################################################
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# Visual Studio Code
+# .vscode/
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+replay_pid*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -162,4 +199,4 @@ cython_debug/
 #  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
-#.idea/
+.idea/
