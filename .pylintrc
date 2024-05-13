@@ -1,0 +1,93 @@
+[MASTER]
+limit-inference-results=200
+persistent=yes
+suggestion-mode=yes
+
+[BASIC]
+docstring-min-length=1
+good-names=X, y, split_X_y, _, __, ___, i
+include-naming-hint=yes
+
+class-naming-style=PascalCase
+const-naming-style=UPPER_CASE
+
+argument-naming-style=snake_case
+attr-naming-style=snake_case
+function-naming-style=snake_case
+method-naming-style=snake_case
+module-naming-style=snake_case
+variable-naming-style=snake_case
+
+[CLASSES]
+# List of member names, which should be excluded from the protected access warning.
+exclude-protected=_name
+
+[DESIGN]
+max-args=5
+max-attributes=10
+max-bool-expr=5
+max-branches=12
+max-parents=7
+max-public-methods=20
+max-returns=6
+max-statements=50
+min-public-methods=1
+# Maximum number of locals for function/method body
+max-locals=15
+
+[FORMAT]
+# Regexp for a line that is allowed to be longer than the limit.
+ignore-long-lines=(?x)
+  (^\s*(import|from)\s
+   |\#
+   |(https?|ftp):)
+max-args=10
+max-line-length=120
+max-attributes=10
+max-module-lines=1000
+single-line-class-stmt=no
+single-line-if-stmt=no
+
+[IMPORTS]
+deprecated-modules=optparse,tkinter.tix
+known-third-party=enchant
+
+[LOGGING]
+# `old` -> %, `new` -> `{}`
+logging-format-style=new
+logging-modules=logging
+
+[MESSAGES CONTROL]
+disable=E0611,W0201,W1203
+
+[REPORTS]
+output-format=colorized
+reports=no
+score=yes
+
+[SPELLING]
+max-spelling-suggestions=10
+spelling-ignore-words= "adadelta", "argmax", "BLSTM", "blstmwa", "catboost",
+    "chebyshev", "classif", "clipnorm", "dataframe", "DCNN", "dind",
+    "dockerfiles", "dtype", "elasticnet", "gelu", "gini", "iloc", "imagenet",
+    "kfold", "lbfgs", "liblinear", "multinomial", "noninteractive=",
+    "nproc", "Pepino", "preds", "proba", "relu", "resampler", "rmsprop",
+    "softmax", "tzdata", "windspeed", "xgboost"
+
+[VARIABLES]
+variable-rgx=(?:X_)?[a-z_][a-z0-9_]*
+argument-rgx=(?:X_)?[a-z_][a-z0-9_]*
+attr-rgx=(?:X_)?[a-z_][a-z0-9_]*
+
+[TYPECHECK]
+ignored-classes=optparse.Values,thread._local,_thread._local
+ignored-modules=numpy.random,matplotlib.cm
+# A mixin class is detected if its name ends with "mixin" (case insensitive).
+ignore-mixin-members=yes
+# Warn about missing members when the owner of the attribute is inferred to be None
+ignore-none=yes
+# Warn about no-member and similar checks whenever an opaque object is returned when inferring
+ignore-on-opaque-inference=yes
+# Show possible names when a member name was not found based on edit distance.
+missing-member-hint=yes
+missing-member-max-choices=1
