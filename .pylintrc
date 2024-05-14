@@ -23,17 +23,17 @@ variable-naming-style=snake_case
 exclude-protected=_name
 
 [DESIGN]
-max-args=5
-max-attributes=10
-max-bool-expr=5
-max-branches=12
-max-parents=7
-max-public-methods=20
+max-args=6
+max-attributes=15
+max-bool-expr=4
+max-branches=10
+max-parents=5
+max-public-methods=15
 max-returns=6
 max-statements=50
 min-public-methods=1
 # Maximum number of locals for function/method body
-max-locals=15
+max-locals=20
 
 [FORMAT]
 # Regexp for a line that is allowed to be longer than the limit.
