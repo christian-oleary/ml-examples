@@ -1,3 +1,7 @@
+"""Feature engineering for scikit-learn regression models"""
+
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
 from sklearn.feature_selection import SelectKBest, f_regression
@@ -10,14 +14,18 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import Normalizer
 from sklearn.tree import DecisionTreeRegressor
 
-from e1_create_dataset import create_regression_dataset
+from examples.e1_create_dataset import create_regression_dataset
 
 
-def daily_statistics(input_path=None, output_path='df_daily.csv'):
+FEATURES_DIR = Path('data')/'features'
+FEATURES_DIR.mkdir(exist_ok=True)
+
+
+def daily_statistics(input_path=None, output_path=FEATURES_DIR/'e12_daily_statistics.csv'):
     """Get daily mean, minimum and maximum values for each column in a time series dataset
 
     :param input_path: Path to input CSV file (str), defaults to None
-    :param output_path: Path to output CSV file (str), defaults to 'df_daily.csv'
+    :param output_path: Path to output CSV file (str)
     """
 
     # Read the dataset into a DataFrame
@@ -65,11 +73,12 @@ def daily_statistics(input_path=None, output_path='df_daily.csv'):
 
 
 def time_series_to_tabular():
+    """Convert time series data to a tabular format usable by a regression model"""
     df, _, __ = create_regression_dataset()
 
-    TARGET = 'temp' # The column in df we want to forecast
-    LAG = 6 # This is how far back we want to look for features
-    HORIZON = 3 # This is how far forward we want forecast
+    target_col = 'temp'  # The column in df we want to forecast
+    loopback = 6  # This is how far back we want to look for features
+    horizon = 3  # This is how far forward we want forecast
 
     # Look up ACF plots
 
@@ -77,13 +86,14 @@ def time_series_to_tabular():
     cols = df.columns
     index = df.index
     df = SimpleImputer(missing_values=np.nan, strategy='mean').fit_transform(df)
-    df = pd.DataFrame(df, columns=cols, index=index) # convert back to dataframe
+    df = pd.DataFrame(df, columns=cols, index=index)  # convert back to dataframe
 
     def create_lag_features(df, target, lag):
         """Create features for our ML model (X matrix).
 
-        :param df: DataFrame
-        :param lag: Lookback window (int)
+        :param pd.DataFrame df: DataFrame
+        :param str target: Name of target column (int)
+        :param int lag: Lookback window (int)
         """
         for col in df.columns:
             for i in range(1, lag+1):
@@ -98,9 +108,9 @@ def time_series_to_tabular():
         df = df.iloc[lag:]
         return df
 
-
     def create_future_values(df, target, horizon):
-        targets = [ target ]
+        """Create target columns for horizons greater than 1"""
+        targets = [target]
         for i in range(1, horizon):
             col_name = f'{target}+{i}'
             df[col_name] = df[target].shift(-i)
@@ -110,16 +120,15 @@ def time_series_to_tabular():
         df = df[df[targets[-1]].notna()]
         return df, targets
 
-
     print('\nInitial df shape:', df.shape)
 
     # Create feature data (X)
-    df = create_lag_features(df, TARGET, LAG)
-    print('\ndf shape after feature creation:', df.shape)
+    df = create_lag_features(df, target_col, loopback)
+    print('\ndf shape with feature columns:', df.shape)
 
     # Create targets to forecast (y)
-    df, targets = create_future_values(df, TARGET, HORIZON)
-    print('\ndf shape after feature creation:', df.shape)
+    df, targets = create_future_values(df, target_col, horizon)
+    print('\ndf shape with target columns:', df.shape)
 
     # Separate features (X) and targets (y)
     y = df[targets]
@@ -130,9 +139,9 @@ def time_series_to_tabular():
     # Add features to capture hour-of-day
     # Read: https://pandas.pydata.org/docs/reference/api/pandas.DatetimeIndex.html
     X['hour'] = X.index.hour
-    X['sin_hour'] = np.sin(2 * np.pi * X['hour'].apply(lambda ts: int(ts))/24.0)
-    X['cos_hour'] = np.cos(2 * np.pi * X['hour'].apply(lambda ts: int(ts))/24.0)
-    del X['hour'] # Optional
+    X['sin_hour'] = np.sin(2 * np.pi * X['hour'].astype(int) / 24.0)
+    X['cos_hour'] = np.cos(2 * np.pi * X['hour'].astype(int) / 24.0)
+    del X['hour']  # Optional
 
     # An alternative for day-of-year:
     # X['day_of_year'] = X.index.day_of_year
@@ -149,15 +158,13 @@ def time_series_to_tabular():
     # Examine the shapes of the created dataframes and arrays.
     # Look at the column names, e.g.: "print(df.columns)"
 
-    X.to_csv('e12_X.csv')
-    y.to_csv('e12_y.csv')
-
+    X.to_csv(FEATURES_DIR/'e12_features.csv')
+    y.to_csv(FEATURES_DIR/'e12_targets.csv')
     return X, y
 
 
 def forecasting_example():
-    """Examples of fitting forecasting models using the methodology of time_series_to_tabular()
-    """
+    """Examples of fitting forecasting models using the methodology of time_series_to_tabular()"""
     X, y = time_series_to_tabular()
 
     # 1. Simple example using a model
@@ -169,14 +176,17 @@ def forecasting_example():
 
     # 2. Another example using a pipeline and RandomizedSearchCV
     print('\nTraining pipeline')
-    scaler_space = { f'scaler__norm': ['l1', 'l2', 'max'] }
-    feature_selector_space = { f'multioutput__estimator__feature_selector__k': [1, 2, 3] }
-    model_space = { f'multioutput__estimator__model__max_depth': [5, 10, 15, 20] }
+    scaler_space = {'scaler__norm': ['l1', 'l2', 'max']}
+
+    feature_selector_space = {'multioutput__estimator__feature_selector__k': [1, 2, 3]}
+
+    model_space = {'multioutput__estimator__model__max_depth': [5, 10, 15, 20]}
+
     distributions = {
-                     **scaler_space,
-                     **feature_selector_space,
-                     **model_space
-                    }
+        **scaler_space,
+        **feature_selector_space,
+        **model_space
+    }
 
     pipeline = Pipeline([
         ('scaler', Normalizer()),
@@ -196,22 +206,26 @@ def forecasting_example():
 
 
 def multioutput_metrics(y_test, y_pred):
-    MAE = mean_absolute_error(y_test, y_pred, multioutput='raw_values')
-    print('\nMAE', MAE)
+    """Metrics for multioutput data"""
+    mae = mean_absolute_error(y_test, y_pred, multioutput='raw_values')
+    print('\nMAE', mae)
     # How many values are in MAE? Check horizon
 
 
-if __name__ == '__main__':
-    daily_statistics(output_path='df_daily.csv')
-    # daily_statistics(input_path='hourly_data.csv', output_path='hourly_data_statistics.csv')
+def run():
+    """Run this exercise"""
+    daily_statistics()
 
     print('\n--- TS TO TABULAR ---')
     time_series_to_tabular()
 
     print('\n--- FORECASTING EXAMPLE ---')
-    y_test, y_pred = forecasting_example()
+    actual, predictions = forecasting_example()
 
     print('\n--- MULTIOUTPUT METRICS ---')
-    multioutput_metrics(y_test, y_pred)
-
+    multioutput_metrics(actual, predictions)
     print()
+
+
+if __name__ == '__main__':
+    run()

@@ -1,15 +1,19 @@
+"""Metrics to use when evaluating models"""
+
 import math
 from pprint import pprint
 
 import numpy as np
-import pandas as pd
-from sklearn.metrics import (mean_absolute_error, mean_absolute_percentage_error,
-                             median_absolute_error, mean_squared_error, r2_score)
-from sklearn.metrics import (accuracy_score, precision_recall_fscore_support, matthews_corrcoef)
+from sklearn.metrics import (
+    accuracy_score, matthews_corrcoef, mean_absolute_error,
+    mean_absolute_percentage_error, median_absolute_error,
+    mean_squared_error, precision_recall_fscore_support, r2_score
+)
 
-from e2_train_models import train_classification, train_regression
+from examples.e2_train_models import train_classification, train_regression
 
-def regression_scores(actual, predicted):
+
+def regression_scores(actual: np.ndarray, predicted: np.ndarray):
     """Calculate regression metrics
 
     :param actual: Original time series values
@@ -30,7 +34,7 @@ def regression_scores(actual, predicted):
     return results
 
 
-def classification_scores(actual, predicted):
+def classification_scores(actual: np.ndarray, predicted: np.ndarray):
     """Calculate classification metrics
 
     :param actual: Original labels
@@ -45,21 +49,26 @@ def classification_scores(actual, predicted):
     # Get F1 scores, Average Precision, ROC AUC, etc.
     averages = ['micro', 'macro', 'weighted']
     for average in averages:
-        precision, recall, f1, _ = precision_recall_fscore_support(actual, predicted, average=average, zero_division=0)
+        precision, recall, f1, _ = precision_recall_fscore_support(
+            actual, predicted, average=average, zero_division=0)
         scores[f'{average}_precision'] = precision
         scores[f'{average}_recall'] = recall
         scores[f'{average}_f1'] = f1
     return scores
 
 
+def run():
+    """Run this exercise"""
+    _, predictions, __, y = train_regression()
+    metrics = regression_scores(y, predictions)
+    print('\nregression_scores:')
+    pprint(metrics)
+
+    _, predictions, __, y = train_classification()
+    metrics = classification_scores(y, predictions)
+    print('\nclassification_scores:')
+    pprint(metrics)
+
+
 if __name__ == '__main__':
-
-    model, predictions, X, y = train_regression()
-    scores = regression_scores(y, predictions)
-    print('\nregression_scores')
-    pprint(scores)
-
-    model, predictions, X, y = train_classification()
-    scores = classification_scores(y, predictions)
-    print('\nclassification_scores')
-    pprint(scores)
+    run()

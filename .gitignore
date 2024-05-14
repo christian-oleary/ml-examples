@@ -1,5 +1,9 @@
 # Project specific additions:
+data/
 docs/
+feature_scores/
+ignore/
+results/
 
 *.csv
 *.joblib

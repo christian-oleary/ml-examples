@@ -1,39 +1,35 @@
-import os
+"""Creating custom models in a class to be compatible with scikit-learn"""
+
 import numpy as np
 import pandas as pd
-from sklearn.model_selection import RandomizedSearchCV, train_test_split
+from sklearn.experimental import enable_halving_search_cv  # noqa pylint: disable=unused-import
+from sklearn.model_selection import HalvingRandomSearchCV, train_test_split
 from sklearn.tree import DecisionTreeClassifier
-
 from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau, TerminateOnNaN
-from tensorflow.keras.layers import Activation, BatchNormalization, Dense, Dropout
+from tensorflow.keras.layers import Activation, BatchNormalization, Dense, Dropout, Input
 from tensorflow.keras.metrics import CategoricalAccuracy
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.utils import to_categorical
 
-from e1_create_dataset import create_classification_dataset
-from e2_train_models import train_classification
-from e3_metrics import classification_scores
-
+from examples.e1_create_dataset import create_classification_dataset
+from examples.e3_metrics import classification_scores
 
 
 class DNN:
     """Densely-connected Neural Network classifier"""
 
-    search_space = {
+    search_space: dict = {
         'architecture': [
-            [64], [32], # 1 layer
-            (128, 64), (64, 32), (32, 16), # 2 shrinking layers
-            (128, 64, 32), (64, 32, 16), # 3 shrinking layers
-            (256, 128, 64, 32), (128, 64, 32, 16),  # 4 shrinking layers
-            (256, 256), (128, 128), (64, 64), (32, 32), # 2 static layers
-            (256, 256, 128, 64, 32), (128, 128, 64, 32), (64, 64, 32), (32, 32), # Static + shrinking layers
+            [64], [32], [16], [8], [4], [2], [1],  # 1 layer
+            (64, 32), (32, 16), (16, 8),  # 2 layers
+            # etc.
         ],
         'batch_normalization': [True, False],
         'batch_size': [32],
         'dropout': [None, 0.1, 0.2, 0.3, 0.4, 0.5],
         'early_stopping': [None, 3, 5, 7, 9],
-        'epochs': [5, 10, 15, 20, 25, 30, 35, 40, 45, 50],
-        'final_activation': ['sigmoid', 'tanh'], # relu performs poorly
+        'epochs': [5, 10, 15, 20, 25, 30],
+        'final_activation': ['sigmoid', 'tanh'],
         'hidden_activation': ['sigmoid', 'tanh', 'relu'],
         'optimizer': ['adadelta', 'adam', 'rmsprop', 'sgd'],
         'reduce_lr': [True, False],
@@ -53,10 +49,14 @@ class DNN:
         self.reduce_lr = kwargs.get('reduce_lr', True)
 
         self.verbose = kwargs.get('verbose', 0)
-        self.input_shape = (256,)
+        self.input_shape = None
 
     def fit(self, X, y):
-        verbosity = int(os.environ.get('keras_verbosity', 0))
+        """Train a densely-connected neural network
+
+        :param pd.DataFrame X: Features
+        :param np.ndarray y: Target
+        """
         self.input_shape = (X.shape[1],)
 
         # Initialize class weights
@@ -70,27 +70,26 @@ class DNN:
 
         # Initialize callbacks
         callbacks = [TerminateOnNaN()]
-        if self.early_stopping != None:
-            callbacks.append(EarlyStopping(monitor='val_loss', mode='min', verbose=verbosity,
-                                           patience=self.early_stopping))
+        if self.early_stopping is not None:
+            callbacks += [EarlyStopping(
+                monitor='val_loss', mode='min',
+                patience=self.early_stopping, verbose=self.verbose
+            )]
 
         if self.reduce_lr:
-            callbacks.append(ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=3, min_lr=0.001))
+            callbacks += [ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=3, min_lr=0.001)]
 
         # Create model
-        self.model = Sequential()
-        for i, shape in enumerate(self.architecture):
-            if i == 0:
-                self.model.add(Dense(shape, input_shape=self.input_shape))
-            else:
-                self.model.add(Dense(shape))
+        self.model = Sequential([Input(self.input_shape)])
+        for units in self.architecture:
+            self.model.add(Dense(units))
 
             if self.batch_normalization:
                 self.model.add(BatchNormalization())
 
             self.model.add(Activation(self.hidden_activation))
 
-            if self.dropout != None:
+            if self.dropout is not None:
                 self.model.add(Dropout(self.dropout))
 
         self.model.add(Dense(num_labels, activation=self.final_activation))
@@ -98,18 +97,28 @@ class DNN:
         # Compile model
         metric = CategoricalAccuracy('balanced_accuracy')
         self.model.compile(loss='categorical_crossentropy', optimizer=self.optimizer, metrics=[metric])
-        # print(self.model.summary())
+        if self.verbose > 1:
+            print(self.model.summary())
 
         # Train model
-        self.model.fit(X, y, validation_split=0.1, class_weight=self.class_weights, epochs=self.epochs,
-                       batch_size=self.batch_size, verbose=verbosity, callbacks=callbacks)
+        self.model.fit(
+            X, y,
+            validation_split=0.1,
+            class_weight=self.class_weights,
+            epochs=self.epochs,
+            batch_size=self.batch_size,
+            verbose=self.verbose,
+            callbacks=callbacks
+        )
 
     def predict(self, X):
+        """Make predictions"""
         predict_raw = self.model.predict(X)
         preds = np.argmax(predict_raw, axis=1)
         return preds
 
-    def get_params(self, deep=True):
+    def get_params(self, **_):
+        """Get parameters (scikit-learn compatible)"""
         return {
             'architecture': self.architecture,
             'batch_size': self.batch_size,
@@ -121,56 +130,73 @@ class DNN:
         }
 
     def set_params(self, **params):
+        """Set parameters (scikit-learn compatible)"""
         if not params:
             return self
 
         for key, value in params.items():
-            if hasattr(self, key):
-                setattr(self, key, value)
-            else:
-                self.kwargs[key] = value
+            setattr(self, key, value)
         return self
 
 
 class ExampleModel:
-    search_space = {}
+    """Empty class with methods that are needed to work with scikit-learn"""
+
+    search_space: dict = {}
 
     def __init__(self, **kwargs):
-        # initialize the model here
-        pass
+        """Instantiate"""
 
     def fit(self, X, y):
-        pass
+        """Train a model"""
 
     def predict(self, X):
+        """Make predictions"""
         return np.ones(len(X))
 
-    def get_params(self, deep=True):
+    def get_params(self, *_, **__):
+        """Return parameters as a dictionary"""
         return {}
 
     def set_params(self, **params):
+        """Update parameters"""
+        if not params:
+            return self
+        for key, value in params.items():
+            setattr(self, key, value)
         return self
 
 
-custom_models = {
-    'DecisionTreeClassifier': (DecisionTreeClassifier, { 'max_depth': [8, 16, 32, 64, 128, None] }),
-    ExampleModel.__name__: (ExampleModel, ExampleModel.search_space),
-    DNN.__name__: (DNN, DNN.search_space),
-}
+def run():
+    """Run this exercise"""
+    custom_models = {
+        'DecisionTreeClassifier': (DecisionTreeClassifier, {'max_depth': [8, 16, 32, 64, 128, None]}),
+        ExampleModel.__name__: (ExampleModel, ExampleModel.search_space),
+        DNN.__name__: (DNN, DNN.search_space),
+    }
 
-
-if __name__ == '__main__':
-    _, X, y = create_classification_dataset()
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
+    _, features, target = create_classification_dataset()
+    X_train, X_test, y_train, y_test = train_test_split(features, target, test_size=0.2, random_state=0)
 
     for model_name, elements in custom_models.items():
         print('\n', model_name)
-        model = elements[0]() # Constructor
-        distributions = elements[1] # hyperparameter search space
+        model = elements[0]()  # Constructor
+        distributions = elements[1]  # hyperparameter search space
 
         # Train the model
-        search = RandomizedSearchCV(model, param_distributions=distributions, scoring='accuracy', n_iter=5, verbose=1)
+        search = HalvingRandomSearchCV(
+            model, distributions,
+            n_candidates=10,
+            n_jobs=1,
+            cv=2,
+            scoring='accuracy',
+            verbose=1
+        )
         predictions = search.fit(X_train, y_train)
         predictions = search.predict(X_test)
         scores = classification_scores(y_test, predictions)
         print(scores['accuracy'])
+
+
+if __name__ == '__main__':
+    run()

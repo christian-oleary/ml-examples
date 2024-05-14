@@ -1,5 +1,14 @@
-scikit-learn==1.2.2
+# Machine learning
 pandas==2.0.2
-tensorflow==2.10
-seaborn==0.12.2
+scikit-learn==1.2.*
+tensorflow==2.10.*
+
+# Plots
+seaborn>=0.12.2
 matplotlib
+
+# Useful libraries testing code and formatting
+coverage
+pytest
+pytest-cov
+pylint

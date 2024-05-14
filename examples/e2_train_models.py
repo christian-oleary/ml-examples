@@ -1,45 +1,57 @@
-from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
-from e1_create_dataset import create_datasets
+"""Examples of training scikit-learn models"""
 
-# create a regression dataset
-df_regression, df_classification = create_datasets()
+from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
+
+from examples.e1_create_dataset import create_classification_dataset, create_regression_dataset
 
 
 def train_regression():
-    """Train a regression model"""
-    # Separate the target variable from features
-    y = df_regression['temp']
-    X = df_regression.drop('temp', axis=1)
+    """Train a scikit-learn regression model"""
+    _, X, y = create_regression_dataset()
 
-    model = DecisionTreeRegressor() # Create the model
-    model.fit(X, y) # Train the model
-    predictions = model.predict(X) # Make some predictions
-    return model, predictions, X, y
+    # Create the model
+    model = DecisionTreeRegressor()
+
+    # Train the model
+    model.fit(X, y)
+
+    # Make some predictions
+    predictions = model.predict(X)
 
     # Note that X and y are not very informative variable names, but they are
-    # extremely common in Python-based machine learning. Investigate the objects,
-    # e.g.: "print('X', type(X), X.shape)"
+    # extremely common in Python-based machine learning. Investigate the
+    # objects, e.g.: "print('X', type(X), X.shape)"
+    return model, predictions, X, y
 
 
 def train_classification():
-    # Train a classification model
-    y = df_classification['target']
-    X = df_classification.drop('target', axis=1)
+    """Train a scikit-learn classification model"""
+    _, X, y = create_classification_dataset()
 
-    model = DecisionTreeClassifier() # Create the model
-    model.fit(X, y) # Train the model
-    predictions = model.predict(X) # Make some predictions
-    return model, predictions, X, y
+    # Create the model
+    model = DecisionTreeClassifier()
+
+    # Train the model
+    model.fit(X, y)
+
+    # Make some predictions
+    predictions = model.predict(X)
 
     # Take note of the shapes of the prediction arrays. Why are they that shape?
-    # Hint: take a look at the input data
+    # Hint: take a look at shape of the input data
+    return model, predictions, X, y
+
+
+def run():
+    """Run this exercise"""
+    regression_model, preds, _, __ = train_regression()
+    print('\nRegression predictions:', preds, type(preds), preds.shape)
+    print('Model type:', type(regression_model))
+
+    classification_model, preds, _, __ = train_classification()
+    print('\n\nClassification predictions:', preds, type(preds), preds.shape)
+    print('Model type:', type(classification_model))
 
 
 if __name__ == '__main__':
-    df_regression, df_classification = create_datasets()
-
-    model, predictions, X, y = train_regression()
-    print('\nRegression predictions:', predictions, type(predictions), predictions.shape)
-
-    model, predictions, X, y = train_classification()
-    print('\n\nClassification predictions:', predictions, type(predictions), predictions.shape)
+    run()

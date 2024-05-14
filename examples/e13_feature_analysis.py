@@ -1,3 +1,5 @@
+"""Analyse features and provide feature scores"""
+
 import os
 
 import matplotlib.pyplot as plt
@@ -6,7 +8,7 @@ from scipy import stats
 import seaborn as sns
 from sklearn.feature_selection import SelectKBest, f_regression, mutual_info_regression
 
-from e1_create_dataset import create_regression_dataset
+from examples.e1_create_dataset import create_regression_dataset
 
 
 # For an example of using feature selection in a pipeline, see example e9_pipelines.py
@@ -16,18 +18,20 @@ def feature_scoring_regression(output_dir='feature_scores'):
 
     df, X, y = create_regression_dataset()
 
-    os.makedirs(output_dir, exist_ok=True) # Make a directory called feature_scores
+    os.makedirs(output_dir, exist_ok=True)  # Make a directory called feature_scores
 
     def plot_scores(scoring_function, filename):
         # Get feature scores
-        if scoring_function == None:
+        if scoring_function is None:
             results = []
             for col in X.columns:
+                # This handles y having multiple columns
                 try:
-                    weight = abs(stats.pearsonr(X[col], y.iloc[:,0])[0]) # This handles y having multiple columns
-                except:
+                    weight = abs(stats.pearsonr(X[col], y.iloc[:, 0])[0])
+                except pd.errors.IndexingError:
                     weight = abs(stats.pearsonr(X[col], y)[0])
-                results.append({ 'feature': col, 'score': weight })
+
+                results.append({'feature': col, 'score': weight})
             weights = pd.DataFrame(results)
         else:
             selector = SelectKBest(scoring_function, k=3)
@@ -52,11 +56,17 @@ def feature_scoring_regression(output_dir='feature_scores'):
 
     # Finally, create a correlation heatmap
     plt.clf()
-    fig, _ = plt.subplots(figsize=(10,10))
+    fig, _ = plt.subplots(figsize=(10, 10))
     corr = df.corr()
     heatmap = sns.heatmap(corr, cmap="Blues", annot=True)
     fig = heatmap.get_figure()
-    fig.savefig(os.path.join(output_dir, f'heatmap.png'), dpi=400)
+    fig.savefig(os.path.join(output_dir, 'heatmap.png'), dpi=400)
+
+
+def run():
+    """Run this exercise"""
+    feature_scoring_regression()
+
 
 if __name__ == '__main__':
     feature_scoring_regression()

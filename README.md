@@ -2,29 +2,54 @@
 
 Machine Learning Examples
 
-Installation:
+## Installation
+
+With Miniconda:
 
 ```bash
+conda create -n env_example python=3.10
+conda activate env_example
 pip install -r requirements.txt
 ```
 
-## Concepts
+## Usage
+
+Read through examples before running (copy and paste into terminal).
+
+```bash
+python -m examples 1   # Creating sample datasets          (e1_create_dataset.py)
+python -m examples 2   # Training models with scikit-learn (e2_train_models.py)
+python -m examples 3   # Metrics for evaluating models     (e3_metrics.py)
+python -m examples 4   # Testing models                    (e4_model_testing.py)
+python -m examples 5   # Recording data in CSV files       (e5_recording_scores.py)
+python -m examples 6   # Tuning models                     (e6_hyperparameter_optimization.py)
+python -m examples 7   # Nested CV                         (e7_nested_cross_validation.py)
+python -m examples 8   # Training many models              (e8_handling_models.py)
+python -m examples 9   # Pipelines in scikit-learn         (e9_pipelines.py)
+python -m examples 10  # Serializing/loading models        (e10_serialization.py)
+python -m examples 11  # Creating custom models            (e11_custom_models.py)
+python -m examples 12  # Time series feature engineering   (e12_time_series_features.py)
+python -m examples 13  # Feature analysis                  (e13_feature_analysis.py)
+```
+
+## Concepts to Learn
 
 Machine Learning:
 
 - Training, validation and test sets
-- Hyperparameters
+- Hyperparameter optimization
 - Holdout, Cross-Validation, Nested Cross-Validation
 - Leakage
 - Underfitting, overfitting
 - Curse of dimensionality
 - Regularization
-- Data augmentation
+- Saving and loading models
+- Time series data
 
 Programming:
 
-- Object Oriented Programming
 - Git
+- Object-Oriented Programming
 
 ## Tips
 
@@ -78,3 +103,12 @@ Programming:
 <https://scikit-learn.org/stable/modules/generated/sklearn.multioutput.MultiOutputRegressor.html>
 <https://machinelearningmastery.com/multi-step-time-series-forecasting/>
 <https://machinelearningmastery.com/basic-feature-engineering-time-series-data-python/>
+
+## Running Tests
+
+```bash
+ca env_example
+python -m pytest # run tests
+python -m pylint examples # run linter
+python -m tox run # run tests in multiple Python versions, linter, coverage
+```

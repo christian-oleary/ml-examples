@@ -5,7 +5,7 @@ suggestion-mode=yes
 
 [BASIC]
 docstring-min-length=1
-good-names=X, y, split_X_y, _, __, ___, i
+good-names=X, y, split_X_y, _, __, ___, i, X_train, X_test, X_val
 include-naming-hint=yes
 
 class-naming-style=PascalCase
@@ -81,7 +81,7 @@ attr-rgx=(?:X_)?[a-z_][a-z0-9_]*
 
 [TYPECHECK]
 ignored-classes=optparse.Values,thread._local,_thread._local
-ignored-modules=numpy.random,matplotlib.cm
+ignored-modules=numpy.random,matplotlib.cm,sklearn.experimental,tensorflow
 # A mixin class is detected if its name ends with "mixin" (case insensitive).
 ignore-mixin-members=yes
 # Warn about missing members when the owner of the attribute is inferred to be None

@@ -1,17 +1,27 @@
+"""Saving models to disk"""
+
 from joblib import dump, load
-from e2_train_models import train_regression
+
+from examples.e2_train_models import train_regression
 
 # Recommended reading: https://scikit-learn.org/stable/model_persistence.html
 
 
-if __name__ == '__main__':
+def run():
+    """Run this exercise"""
     # Train an example model
     model, _, X, ___ = train_regression()
 
     # Save model as a file
-    dump(model, 'model.joblib')
+    path = 'model.joblib'
+    dump(model, path)
 
     # Load model model from file
-    loaded_model = load('model.joblib')
+    loaded_model = load(path)
     predictions = loaded_model.predict(X)
-    print('Finished')
+    assert len(predictions) > 0
+    print(f'Model saved at {path}')
+
+
+if __name__ == '__main__':
+    run()
