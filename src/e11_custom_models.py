@@ -15,7 +15,7 @@ from src.e1_create_dataset import create_classification_dataset
 from src.e3_metrics import classification_scores
 
 
-class DNN:
+class DNN():
     """Densely-connected Neural Network classifier"""
 
     search_space: dict = {
@@ -26,12 +26,12 @@ class DNN:
         ],
         'batch_normalization': [True, False],
         'batch_size': [32],
-        'dropout': [None, 0.1, 0.2, 0.3, 0.4, 0.5],
+        'dropout': [None, 0.1, 0.2, 0.3, 0.4],
         'early_stopping': [None, 3, 5, 7, 9],
-        'epochs': [5, 10, 15, 20, 25, 30],
+        'epochs': [5, 10, 15, 20],
         'final_activation': ['sigmoid', 'tanh'],
         'hidden_activation': ['sigmoid', 'tanh', 'relu'],
-        'optimizer': ['adadelta', 'adam', 'rmsprop', 'sgd'],
+        'optimizer': ['adam'],
         'reduce_lr': [True, False],
     }
 
@@ -62,6 +62,9 @@ class DNN:
         # Initialize class weights
         label_counts = dict(pd.Series(y).value_counts())
         num_labels = len(label_counts)
+        if num_labels < 2:
+            raise ValueError('Only one class found in y')
+
         self.class_weights = {
             int(k): (1 / v) * (y.shape[0] / num_labels) / 2
             for k, v in label_counts.items()
@@ -113,7 +116,7 @@ class DNN:
 
     def predict(self, X):
         """Make predictions"""
-        predict_raw = self.model.predict(X)
+        predict_raw = self.model.predict(X, verbose=self.verbose)
         preds = np.argmax(predict_raw, axis=1)
         return preds
 
@@ -175,20 +178,22 @@ def run():
         DNN.__name__: (DNN, DNN.search_space),
     }
 
-    _, features, target = create_classification_dataset()
-    X_train, X_test, y_train, y_test = train_test_split(features, target, test_size=0.2, random_state=0)
+    _, features, target = create_classification_dataset(n_samples=1000)
+    X_train, X_test, y_train, y_test = train_test_split(
+        features, target, test_size=0.2, random_state=0, stratify=target)
 
     for model_name, elements in custom_models.items():
         print('\n', model_name)
-        model = elements[0]()  # Constructor
-        distributions = elements[1]  # hyperparameter search space
+        model = elements[0]()  # Create model
+        distributions = elements[1]  # hyperparameter search space (dict)
 
         # Train the model
         search = HalvingRandomSearchCV(
             model, distributions,
             n_candidates=10,
-            n_jobs=1,
+            n_jobs=1,  # Using multiple jobs with TensorFlow will be problematic
             cv=2,
+            min_resources=50,  # Models will train on (min_resources/cv) instances
             scoring='accuracy',
             verbose=1
         )

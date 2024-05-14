@@ -41,14 +41,14 @@ def create_regression_dataset(path=DEFAULT_REGRESSION_PATH, num_rows=200):
     return df, X, y
 
 
-def create_classification_dataset(path: str = DEFAULT_CLASSIFICATION_PATH):
+def create_classification_dataset(path: str = DEFAULT_CLASSIFICATION_PATH, n_samples: int = 200):
     """Create a classification dataset
 
     :param str path: DataFrame of classification data
     :return tuple: DataFrame of classification data
     """
     # Make some placeholder data
-    X, y = make_classification()
+    X, y = make_classification(n_samples=n_samples)
 
     # Rename the columns
     df = pd.DataFrame(X, columns=[f'feature_{i}' for i in range(X.shape[1])])
