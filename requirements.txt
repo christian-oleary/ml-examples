@@ -8,7 +8,9 @@ seaborn>=0.12.2
 matplotlib
 
 # Useful libraries testing code and formatting
-coverage
-pytest
-pytest-cov
-pylint
+coverage==7.5.*
+pylint==3.2.*
+pytest==8.2.*
+pytest-cov==3.2.*
+tox==4.4.*
+setuptools

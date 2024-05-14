@@ -43,7 +43,6 @@ ignore-long-lines=(?x)
    |(https?|ftp):)
 max-args=10
 max-line-length=120
-max-attributes=10
 max-module-lines=1000
 single-line-class-stmt=no
 single-line-if-stmt=no

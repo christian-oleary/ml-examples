@@ -1,19 +1,19 @@
 """Example basic usage of pytest"""
 # pylint: disable=multiple-statements
 
-from examples.e1_create_dataset import run as run_e1
-from examples.e2_train_models import run as run_e2
-from examples.e3_metrics import run as run_e3
-from examples.e4_model_testing import run as run_e4
-from examples.e5_recording_scores import run as run_e5
-from examples.e6_hyperparameter_optimization import run as run_e6
-from examples.e7_nested_cross_validation import run as run_e7
-from examples.e8_handling_models import run as run_e8
-from examples.e9_pipelines import run as run_e9
-from examples.e10_serialization import run as run_e10
-from examples.e11_custom_models import run as run_e11
-from examples.e12_time_series_features import run as run_e12
-from examples.e13_feature_analysis import run as run_e13
+from src.e1_create_dataset import run as run_e1
+from src.e2_train_models import run as run_e2
+from src.e3_metrics import run as run_e3
+from src.e4_model_testing import run as run_e4
+from src.e5_recording_scores import run as run_e5
+from src.e6_hyperparameter_optimization import run as run_e6
+from src.e7_nested_cross_validation import run as run_e7
+from src.e8_handling_models import run as run_e8
+from src.e9_pipelines import run as run_e9
+from src.e10_serialization import run as run_e10
+from src.e11_custom_models import run as run_e11
+from src.e12_time_series_features import run as run_e12
+from src.e13_feature_analysis import run as run_e13
 
 
 def test_e1(): run_e1()
