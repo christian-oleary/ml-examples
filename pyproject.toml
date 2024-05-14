@@ -8,7 +8,7 @@ version = "0.0.2"
 authors = [ { name="Christian O'Leary", email="christian.oleary@mtu.com" }, ]
 description = "Example Python code for machine learning"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 dynamic = [ "dependencies", "optional-dependencies" ]
 classifiers = [
     "Programming Language :: Python :: 3",
@@ -20,6 +20,7 @@ classifiers = [
 # COVERAGE
 [tool.coverage.run]
 branch = true
+
 [tool.coverage.report]
 exclude_also = [ # Regexes for lines to exclude from consideration
     "def __repr__", "if self\\.debug",  # Don't complain about missing debug-only code
@@ -29,13 +30,15 @@ exclude_also = [ # Regexes for lines to exclude from consideration
 ]
 ignore_errors = true
 show_missing = true
-fail_under = 10
+fail_under = 90
+
 [tool.coverage.html]
 directory = "./docs/coverage_html_report"
 
 # MYPY
 [tool.mypy]
-exclude = "repositories"
+ignore_missing_imports = true
+# exclude = "repositories"
 
 # PYLINT
 [tool.pylint.'MASTER']
@@ -44,7 +47,6 @@ addopts = "--rcfile=.pylintrc"
 # PYTEST
 [tool.pytest.ini_options]
 addopts = "-ra --cov --cov-append --cov-report=term-missing"
-# addopts = "-ra"
 log_cli = true
 log_cli_level = "INFO"
 log_cli_format = "%(asctime)s [%(levelname)8s] %(message)s"
@@ -58,24 +60,22 @@ testpaths = [ "tests" ]
 legacy_tox_ini = """
     [tox]
     requires = tox>=4
-    # env_list = lint, type, py{39,310,311}, report
-    env_list = py{39,310,311}
-    # env_list = py310
-    # env_list = lint
+    env_list = lint, type, py{310}, report
 
-    # [testenv]
-    # commands = coverage erase; pytest
-    # deps = coverage, gitpython, pytest, pytest-cov
+    [testenv]
+    commands = pytest
+    skip_install = False
+    deps = -r{toxinidir}/requirements.txt
 
-    # [testenv:report]
-    # deps = coverage
-    # commands = coverage html; coverage report --fail-under=10; coverage erase
+    [testenv:report]
+    commands = coverage html; coverage report --fail-under=2.0; coverage erase
+    deps = -r{toxinidir}/requirements.txt
 
-    # [testenv:lint]
-    # deps = pylint
-    # commands = pylint src
+    [testenv:lint]
+    commands = python -m pylint {posargs:src}
+    deps = -r{toxinidir}/requirements.txt
 
-    # [testenv:type]
-    # deps = mypy>=0.991
-    # commands = python -m mypy {posargs:src tests}
+    [testenv:type]
+    commands = python -m mypy {posargs:src tests} --install-types --non-interactive
+    deps = -r{toxinidir}/requirements.txt
 """
