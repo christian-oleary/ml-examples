@@ -10,7 +10,7 @@ matplotlib==3.9.0
 
 # Useful libraries testing code and formatting
 coverage==7.4.*
-pylint==3.2.*
+pylint==2.*
 pytest==8.2.*
 tox==4.4.*
 mypy==1.10.*
