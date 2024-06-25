@@ -5,7 +5,6 @@ from sklearn.discriminant_analysis import StandardScaler
 from sklearn.feature_selection import SelectKBest, f_regression
 from sklearn.model_selection import RandomizedSearchCV, train_test_split
 from sklearn.pipeline import Pipeline
-from sklearn.tree import DecisionTreeRegressor
 
 from src.e1_create_dataset import create_regression_dataset
 from src.e3_metrics import regression_scores
@@ -21,7 +20,8 @@ def build_pipeline(model_name, debug=False):
     _, X, y = create_regression_dataset()
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
 
-    model_space = {f'model__{k}': v for k, v in regression_models[model_name][1].items()}
+    model, model_space = regression_models[model_name]
+    model_space = {f'model__{k}': v for k, v in model_space.items()}
 
     distributions = {
         **model_space,
@@ -55,8 +55,8 @@ def build_pipeline(model_name, debug=False):
 
     pipeline_parts = [
         ('scaler', StandardScaler()),
-        ('feature_selector', SelectKBest(f_regression)),  # Use if you have too many (unhelpful) features
-        ('model', DecisionTreeRegressor()),
+        ('feature_selector', SelectKBest(f_regression)),  # Remove least helpful features
+        ('model', model()),
     ]
     if debug:
         pipeline_parts.insert(1, ('debugger', Debugger()))
@@ -76,9 +76,9 @@ def build_pipeline(model_name, debug=False):
 
 
 def run():
-    """Run this exercise"""
+    """Run this exercise using a Decision Tree model"""
     build_pipeline('DecisionTreeRegressor')
 
 
 if __name__ == '__main__':
-    build_pipeline('DecisionTreeRegressor')
+    run()

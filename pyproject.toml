@@ -17,6 +17,7 @@ classifiers = [
 
 # https://github.com/christian-oleary/ml-examples.git
 
+################################################################################
 # COVERAGE
 [tool.coverage.run]
 branch = true
@@ -35,15 +36,18 @@ fail_under = 90
 [tool.coverage.html]
 directory = "./docs/coverage_html_report"
 
+################################################################################
 # MYPY
 [tool.mypy]
 ignore_missing_imports = true
 # exclude = "repositories"
 
+################################################################################
 # PYLINT
 [tool.pylint.'MASTER']
 addopts = "--rcfile=.pylintrc"
 
+################################################################################
 # PYTEST
 [tool.pytest.ini_options]
 addopts = "-ra --cov --cov-append --cov-report=term-missing"
@@ -55,7 +59,8 @@ console_output_style = "progress"
 filterwarnings = "ignore::DeprecationWarning"
 testpaths = [ "tests" ]
 
-# Tox
+################################################################################
+# TOX
 [tool.tox]
 legacy_tox_ini = """
     [tox]
@@ -79,3 +84,5 @@ legacy_tox_ini = """
     commands = python -m mypy {posargs:src tests} --install-types --non-interactive
     deps = -r{toxinidir}/requirements.txt
 """
+
+################################################################################

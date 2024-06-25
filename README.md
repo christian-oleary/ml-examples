@@ -7,8 +7,8 @@ Machine Learning Examples
 With Miniconda:
 
 ```bash
-conda create -n env_example python=3.10
-conda activate env_example
+conda create -n ml python=3.10 -y
+conda activate ml
 pip install -r requirements.txt
 ```
 
@@ -107,7 +107,7 @@ Programming:
 ## Running Tests
 
 ```bash
-ca env_example
+conda activate ml
 python -m pytest # run tests
 python -m pylint examples # run linter
 python -m tox run # run tests in multiple Python versions, linter, coverage

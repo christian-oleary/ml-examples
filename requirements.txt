@@ -1,11 +1,12 @@
 # Machine learning
+numpy==1.26.4
 pandas==2.0.2
-scikit-learn==1.2.*
-tensorflow==2.10.*
+scikit-learn==1.2.2
+tensorflow==2.10.1
 
 # Plots
-seaborn>=0.12.2
-matplotlib
+seaborn==0.12.2
+matplotlib==3.9.0
 
 # Useful libraries testing code and formatting
 coverage==7.4.*
