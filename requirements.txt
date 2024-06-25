@@ -1,8 +1,8 @@
 # Machine learning
 numpy==1.26.4
 pandas==2.0.2
-scikit-learn==1.2.2
-tensorflow==2.10.1
+scikit-learn==1.5.0
+tensorflow==2.11.1
 
 # Plots
 seaborn==0.12.2
