@@ -2,6 +2,7 @@
 limit-inference-results=200
 persistent=yes
 suggestion-mode=yes
+init-hook="from pylint.config import find_pylintrc; import os, sys; sys.path.append(os.path.dirname(find_pylintrc()))"
 
 [BASIC]
 docstring-min-length=1

@@ -25,7 +25,7 @@ def build_pipeline(model_name, debug=False):
 
     distributions = {
         **model_space,
-        'feature_selector__k': [1, 2, 3]  # Probably not useful in this example. For demonstration only
+        'feature_selector__k': [1, 2, 3]  # Included here for demonstration
     }
 
     # The "distributions" dictionary will look like this:

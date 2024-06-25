@@ -1,15 +1,11 @@
 """Optimizing many models"""
 
 import warnings
-from sklearn.exceptions import ConvergenceWarning
-warnings.simplefilter('ignore', category=ConvergenceWarning)  # noqa
-warnings.simplefilter('ignore', category=FutureWarning)  # noqa
-warnings.simplefilter('ignore', category=UserWarning)  # noqa
 
-# pylint: disable=wrong-import-position
 from sklearn.calibration import LinearSVC
 from sklearn.dummy import DummyClassifier, DummyRegressor
 from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+from sklearn.exceptions import ConvergenceWarning
 from sklearn.gaussian_process import GaussianProcessRegressor
 from sklearn.kernel_ridge import KernelRidge
 from sklearn.linear_model import (
@@ -25,6 +21,10 @@ from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor, ExtraTre
 
 from src.e1_create_dataset import create_regression_dataset
 from src.e3_metrics import regression_scores
+
+warnings.simplefilter('ignore', category=ConvergenceWarning)  # noqa
+warnings.simplefilter('ignore', category=FutureWarning)  # noqa
+warnings.simplefilter('ignore', category=UserWarning)  # noqa
 
 
 example = {
@@ -134,7 +134,7 @@ regression_models = {
     Ridge.__name__: (Ridge, {
         'alpha': [0.2, 0.4, 0.6, 0.8, 1.0],
         'tol': [1e-2, 1e-3, 1e-4],
-        'solver': ['auto', 'svd', 'cholesky', 'sparse_cg', 'lsqr'],
+        'solver': ['auto', 'svd', 'cholesky', 'lsqr'],
     }),
     SGDRegressor.__name__: (SGDRegressor, {
         'loss': ['huber', 'epsilon_insensitive', 'squared_epsilon_insensitive'],

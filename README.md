@@ -109,6 +109,6 @@ Programming:
 ```bash
 conda activate ml
 python -m pytest # run tests
-python -m pylint examples # run linter
+python -m pylint src # run linter
 python -m tox run # run tests in multiple Python versions, linter, coverage
 ```

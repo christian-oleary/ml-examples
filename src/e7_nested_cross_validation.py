@@ -7,7 +7,8 @@ from src.e1_create_dataset import create_regression_dataset
 from src.e3_metrics import regression_scores
 
 
-# Recommended reading: https://scikit-learn.org/stable/auto_examples/model_selection/plot_nested_cross_validation_iris.html
+# Recommended reading:
+# https://scikit-learn.org/stable/auto_examples/model_selection/plot_nested_cross_validation_iris.html
 # "Model selection without nested CV uses the same data to tune model parameters and evaluate
 # model performance. Information may thus “leak” into the model and overfit the data. The
 # magnitude of this effect is primarily dependent on the size of the dataset and the stability

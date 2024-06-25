@@ -1,18 +1,45 @@
 """Creating custom models in a class to be compatible with scikit-learn"""
 
+from keras.callbacks import EarlyStopping, ReduceLROnPlateau, TerminateOnNaN
+from keras.layers import Activation, BatchNormalization, Dense, Dropout, Input
+from keras.metrics import CategoricalAccuracy
+from keras.models import Sequential
+from keras.utils import to_categorical
 import numpy as np
 import pandas as pd
-from sklearn.experimental import enable_halving_search_cv  # noqa pylint: disable=unused-import
-from sklearn.model_selection import HalvingRandomSearchCV, train_test_split
+from sklearn.model_selection import RandomizedSearchCV, train_test_split
 from sklearn.tree import DecisionTreeClassifier
-from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau, TerminateOnNaN
-from tensorflow.keras.layers import Activation, BatchNormalization, Dense, Dropout, Input
-from tensorflow.keras.metrics import CategoricalAccuracy
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.utils import to_categorical
 
 from src.e1_create_dataset import create_classification_dataset
 from src.e3_metrics import classification_scores
+
+
+class ExampleModel:
+    """Empty class with methods that are needed to work with scikit-learn"""
+
+    search_space: dict = {}
+
+    def __init__(self, **kwargs):
+        """Instantiate"""
+
+    def fit(self, X, y):
+        """Train a model"""
+
+    def predict(self, X):
+        """Make predictions"""
+        return np.ones(len(X))
+
+    def get_params(self, *_, **__):
+        """Return parameters as a dictionary"""
+        return {}
+
+    def set_params(self, **params):
+        """Update parameters"""
+        if not params:
+            return self
+        for key, value in params.items():
+            setattr(self, key, value)
+        return self
 
 
 class DNN():
@@ -117,8 +144,8 @@ class DNN():
     def predict(self, X):
         """Make predictions"""
         predict_raw = self.model.predict(X, verbose=self.verbose)
-        preds = np.argmax(predict_raw, axis=1)
-        return preds
+        predictions = np.argmax(predict_raw, axis=1)
+        return predictions
 
     def get_params(self, **_):
         """Get parameters (scikit-learn compatible)"""
@@ -142,34 +169,6 @@ class DNN():
         return self
 
 
-class ExampleModel:
-    """Empty class with methods that are needed to work with scikit-learn"""
-
-    search_space: dict = {}
-
-    def __init__(self, **kwargs):
-        """Instantiate"""
-
-    def fit(self, X, y):
-        """Train a model"""
-
-    def predict(self, X):
-        """Make predictions"""
-        return np.ones(len(X))
-
-    def get_params(self, *_, **__):
-        """Return parameters as a dictionary"""
-        return {}
-
-    def set_params(self, **params):
-        """Update parameters"""
-        if not params:
-            return self
-        for key, value in params.items():
-            setattr(self, key, value)
-        return self
-
-
 def run():
     """Run this exercise"""
     custom_models = {
@@ -188,14 +187,14 @@ def run():
         distributions = elements[1]  # hyperparameter search space (dict)
 
         # Train the model
-        search = HalvingRandomSearchCV(
-            model, distributions,
-            n_candidates=10,
-            n_jobs=1,  # Using multiple jobs with TensorFlow will be problematic
-            cv=2,
-            min_resources=50,  # Models will train on (min_resources/cv) instances
+        search = RandomizedSearchCV(
+            model,
+            distributions,
+            n_iter=10,
+            cv=3,
+            n_jobs=1,
             scoring='accuracy',
-            verbose=1
+            verbose=1,
         )
         predictions = search.fit(X_train, y_train)
         predictions = search.predict(X_test)
