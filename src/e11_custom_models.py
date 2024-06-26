@@ -181,14 +181,11 @@ def run():
     X_train, X_test, y_train, y_test = train_test_split(
         features, target, test_size=0.2, random_state=0, stratify=target)
 
-    for model_name, elements in custom_models.items():
-        print('\n', model_name)
-        model = elements[0]()  # Create model
-        distributions = elements[1]  # hyperparameter search space (dict)
-
+    for model_name, (model, distributions) in custom_models.items():
+        print(f'\nTraining: {model_name}')
         # Train the model
         search = RandomizedSearchCV(
-            model,
+            model(),
             distributions,
             n_iter=5,
             cv=2,

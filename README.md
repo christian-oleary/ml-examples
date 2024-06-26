@@ -1,6 +1,7 @@
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT) [![linting: pylint](https://img.shields.io/badge/linting-pylint-green)](https://github.com/pylint-dev/pylint)
-
 # ml-examples
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+[![linting: pylint](https://img.shields.io/badge/linting-pylint-green)](https://github.com/pylint-dev/pylint)
 
 Machine Learning Examples
 
