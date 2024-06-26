@@ -15,6 +15,7 @@ def build_pipeline(model_name, debug=False):
     """Build and test a scikit-learn Pipeline object"""
 
     # Read this: https://scikit-learn.org/stable/modules/compose.html#pipeline
+    print(f'Training: {model_name}')
 
     # Create dataset
     _, X, y = create_regression_dataset()
@@ -28,7 +29,7 @@ def build_pipeline(model_name, debug=False):
         'feature_selector__k': [1, 2, 3]  # Included here for demonstration
     }
 
-    # The "distributions" dictionary will look like this:
+    # The "distributions" dictionary will something look like this:
     # {
     #     'model__criterion': ['absolute_error', 'friedman_mse', 'squared_error'],
     #     'model__splitter': ['best', 'random'],

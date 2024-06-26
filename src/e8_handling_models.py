@@ -2,10 +2,15 @@
 
 import warnings
 
+# flake8: noqa: E402
+from sklearn.exceptions import ConvergenceWarning
+warnings.simplefilter('ignore', category=ConvergenceWarning)
+warnings.simplefilter('ignore', category=FutureWarning)
+warnings.simplefilter('ignore', category=UserWarning)
+
 from sklearn.calibration import LinearSVC
 from sklearn.dummy import DummyClassifier, DummyRegressor
 from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
-from sklearn.exceptions import ConvergenceWarning
 from sklearn.gaussian_process import GaussianProcessRegressor
 from sklearn.kernel_ridge import KernelRidge
 from sklearn.linear_model import (
@@ -21,10 +26,6 @@ from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor, ExtraTre
 
 from src.e1_create_dataset import create_regression_dataset
 from src.e3_metrics import regression_scores
-
-warnings.simplefilter('ignore', category=ConvergenceWarning)  # noqa
-warnings.simplefilter('ignore', category=FutureWarning)  # noqa
-warnings.simplefilter('ignore', category=UserWarning)  # noqa
 
 
 example = {
@@ -248,7 +249,13 @@ def run():
         distributions = elements[1]  # hyperparameter search space
 
         # Train the model
-        search = RandomizedSearchCV(model, param_distributions=distributions, n_iter=10, verbose=1,)
+        search = RandomizedSearchCV(
+            model,
+            param_distributions=distributions,
+            n_iter=10,
+            verbose=1,
+            n_jobs=1,
+        )
         predictions = search.fit(X_train, y_train)
         predictions = search.predict(X_test)
         scores = regression_scores(y_test, predictions)
