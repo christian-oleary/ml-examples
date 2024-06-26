@@ -3,6 +3,7 @@
 import warnings
 
 # flake8: noqa: E402
+# pylint: disable=C0413
 from sklearn.exceptions import ConvergenceWarning
 warnings.simplefilter('ignore', category=ConvergenceWarning)
 warnings.simplefilter('ignore', category=FutureWarning)

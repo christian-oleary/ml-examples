@@ -114,3 +114,9 @@ python -W ignore -m pytest # run tests
 python -m pylint src # run linter
 python -m tox run # run tests in multiple Python versions, linter, coverage
 ```
+
+## Pre-commit
+
+```bash
+pre-commit install
+```
