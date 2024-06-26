@@ -177,7 +177,7 @@ def run():
         DNN.__name__: (DNN, DNN.search_space),
     }
 
-    _, features, target = create_classification_dataset(n_samples=1000)
+    _, features, target = create_classification_dataset(n_samples=100)
     X_train, X_test, y_train, y_test = train_test_split(
         features, target, test_size=0.2, random_state=0, stratify=target)
 
@@ -190,8 +190,8 @@ def run():
         search = RandomizedSearchCV(
             model,
             distributions,
-            n_iter=10,
-            cv=3,
+            n_iter=5,
+            cv=2,
             n_jobs=1,
             scoring='accuracy',
             verbose=1,

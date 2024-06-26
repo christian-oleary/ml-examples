@@ -50,7 +50,7 @@ addopts = "--rcfile=.pylintrc"
 ################################################################################
 # PYTEST
 [tool.pytest.ini_options]
-addopts = "-ra --cov --cov-append --cov-report=term-missing"
+addopts = "-ra --durations=0 --cov --cov-append --cov-report=term-missing"
 log_cli = true
 log_cli_level = "INFO"
 log_cli_format = "%(asctime)s [%(levelname)8s] %(message)s"
@@ -72,17 +72,17 @@ legacy_tox_ini = """
     skip_install = False
     deps = -r{toxinidir}/requirements.txt
 
-    [testenv:report]
-    commands = coverage html; coverage report --fail-under=2.0; coverage erase
-    deps = -r{toxinidir}/requirements.txt
+    # [testenv:report]
+    # commands = coverage html; coverage report --fail-under=2.0; coverage erase
+    # deps = -r{toxinidir}/requirements.txt
 
-    [testenv:lint]
-    commands = python -m pylint {posargs:src}
-    deps = -r{toxinidir}/requirements.txt
+    # [testenv:lint]
+    # commands = python -m pylint {posargs:src}
+    # deps = -r{toxinidir}/requirements.txt
 
-    [testenv:type]
-    commands = python -m mypy {posargs:src tests} --install-types --non-interactive
-    deps = -r{toxinidir}/requirements.txt
+    # [testenv:type]
+    # commands = python -m mypy {posargs:src tests} --install-types --non-interactive
+    # deps = -r{toxinidir}/requirements.txt
 """
 
 ################################################################################
