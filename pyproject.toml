@@ -4,12 +4,11 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ml_examples"
-version = "0.0.2"
 authors = [ { name="Christian O'Leary", email="christian.oleary@mtu.com" }, ]
 description = "Example Python code for machine learning"
 readme = "README.md"
 requires-python = ">=3.10"
-dynamic = [ "dependencies", "optional-dependencies" ]
+dynamic = [ "version", "dependencies", "optional-dependencies" ]
 classifiers = [
     "Programming Language :: Python :: 3",
     "Operating System :: OS Independent",
@@ -65,7 +64,7 @@ testpaths = [ "tests" ]
 legacy_tox_ini = """
     [tox]
     requires = tox>=4
-    env_list = lint, type, py{310}, report
+    env_list = py{310}, report
 
     [testenv]
     commands = pytest
@@ -74,14 +73,6 @@ legacy_tox_ini = """
 
     # [testenv:report]
     # commands = coverage html; coverage report --fail-under=2.0; coverage erase
-    # deps = -r{toxinidir}/requirements.txt
-
-    # [testenv:lint]
-    # commands = python -m pylint {posargs:src}
-    # deps = -r{toxinidir}/requirements.txt
-
-    # [testenv:type]
-    # commands = python -m mypy {posargs:src tests} --install-types --non-interactive
     # deps = -r{toxinidir}/requirements.txt
 """
 
