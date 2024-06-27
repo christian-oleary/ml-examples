@@ -3,7 +3,7 @@ name: Run tests via Pytest
 on: [push]
 
 jobs:
-  build:
+  pytest:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -20,7 +20,20 @@ jobs:
           pip install -r requirements.txt
       - name: Test with pytest
         run: |
-          coverage run -m pytest -ra --durations=0 --cov --cov-append --cov-report=term-missing
-      - name: Generate Coverage Report
-        run: |
-          coverage report
+          pytest -ra --durations=0 --cov --cov-append --cov-report=xml
+          : .coverage confuses coveralls, remove it
+          rm -f .coverage
+      - name: upload coverage data to coveralls
+        uses: coverallsapp/github-action@v2.2.3
+        with:
+          parallel: true
+          flag-name: python-${{ matrix.python-version }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+  coveralls-finish:
+    needs: pytest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: coverallsapp/github-action@v2.2.3
+        with:
+          parallel-finished: true
