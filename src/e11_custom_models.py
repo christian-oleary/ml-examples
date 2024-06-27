@@ -1,14 +1,14 @@
 """Creating custom models in a class to be compatible with scikit-learn"""
 
-from keras.callbacks import EarlyStopping, ReduceLROnPlateau, TerminateOnNaN
-from keras.layers import Activation, BatchNormalization, Dense, Dropout, Input
-from keras.metrics import CategoricalAccuracy
-from keras.models import Sequential
-from keras.utils import to_categorical
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import RandomizedSearchCV, train_test_split
 from sklearn.tree import DecisionTreeClassifier
+from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau, TerminateOnNaN
+from tensorflow.keras.layers import Activation, BatchNormalization, Dense, Dropout, Input
+from tensorflow.keras.metrics import CategoricalAccuracy
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.utils import to_categorical
 
 from src.e1_create_dataset import create_classification_dataset
 from src.e3_metrics import classification_scores

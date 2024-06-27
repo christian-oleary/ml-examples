@@ -47,7 +47,6 @@ example = {
 
 regression_models = {
     BayesianRidge.__name__: (BayesianRidge, {
-        'n_iter': [150, 300, 450],
         'tol': [1e-2, 1e-3, 1e-4],
         'alpha_1': [1e-5, 1e-6, 1e-7],
         'alpha_2': [1e-5, 1e-6, 1e-7],

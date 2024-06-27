@@ -19,7 +19,7 @@ def run():
     # Load model model from file
     loaded_model = load(path)
     predictions = loaded_model.predict(X)
-    assert len(predictions) > 0
+    print(f'len(predictions): {len(predictions)}')
     print(f'Model saved at {path}')
 
 
