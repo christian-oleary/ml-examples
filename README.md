@@ -1,8 +1,9 @@
 # ml-examples
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellowgreen.svg)](https://opensource.org/licenses/MIT)
-[![linting: pylint](https://img.shields.io/badge/linting-pylint-yellowgreen)](https://github.com/pylint-dev/pylint)
-[![testing: pytest](https://img.shields.io/badge/testing-pytest-yellowgreen)](https://github.com/pytest-dev/pytest)
+[![testing: bandit](https://github.com/christian-oleary/ml-examples/actions/workflows/bandit.yml/badge.svg)](https://github.com/christian-oleary/ml-examples/actions/workflows/bandit.yml)
+[![linting: pylint](https://github.com/christian-oleary/ml-examples/actions/workflows/pylint.yml/badge.svg)](https://github.com/christian-oleary/ml-examples/actions/workflows/pylint.yml)
+[![testing: pytest](https://github.com/christian-oleary/ml-examples/actions/workflows/pytest.yml/badge.svg)](https://github.com/christian-oleary/ml-examples/actions/workflows/pytest.yml)
 
 Machine Learning Examples
 
