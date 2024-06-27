@@ -113,7 +113,7 @@ Programming:
 conda activate ml
 pip install -r requirements.txt
 python -W ignore -m pytest  # run tests
-python -m tox run  # run tests in multiple Python versions, linter, coverage
+python -m tox run  # run tests in multiple Python versions
 ```
 
 ## Pre-commit
