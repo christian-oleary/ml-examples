@@ -40,17 +40,8 @@ repos:
         -   id: ruff
             args: ["--no-fix", "--output-format=full"]
 
-
-    # -   repo: local
-    #     hooks:
-        # -   id: pylint
-        #     name: pylint
-        #     entry: pylint
-        #     language: system
-        #     types: [python]
-        #     args:
-        #     [
-        #         "-rn", # Only display messages
-        #         "-sn", # Don't display the score
-        #         "--rcfile=.pylintrc", # Link to your config file
-        #     ]
+    -   repo: https://github.com/PyCQA/pylint
+        rev: v2.17.5
+        hooks:
+        -   id: pylint
+            args: ["--rcfile=.pylintrc", "--disable=import-error"]
