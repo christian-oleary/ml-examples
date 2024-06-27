@@ -13,6 +13,9 @@ results/
 
 !requirements.txt
 
+# ruff
+.ruff_cache/*
+
 ####################################################
 ## Added from https://github.com/github/gitignore ##
 ####################################################

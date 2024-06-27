@@ -23,4 +23,4 @@ jobs:
           coverage run -m pytest -ra --durations=0 --cov --cov-append --cov-report=term-missing
       - name: Generate Coverage Report
         run: |
-          coverage report -m
+          coverage report
