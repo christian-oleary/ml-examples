@@ -1,5 +1,5 @@
 # Machine learning
-numpy==2.0.0
+numpy==1.26.4
 pandas==2.2.2
 scikit-learn==1.5.0
 tensorflow==2.11.1

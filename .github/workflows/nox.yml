@@ -20,4 +20,3 @@ jobs:
                     pip install -r requirements.txt
             -   name: Run Nox
                 run: nox --noxfile tests/noxfile.py
-                # uses: wntrblm/nox

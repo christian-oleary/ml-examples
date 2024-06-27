@@ -2,6 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![linting: pylint](https://img.shields.io/badge/linting-pylint-green)](https://github.com/pylint-dev/pylint)
+[![Nox](https://img.shields.io/badge/%F0%9F%A6%8A-Nox-D85E00.svg)](https://github.com/wntrblm/nox)
 
 Machine Learning Examples
 
@@ -112,8 +113,8 @@ Programming:
 ```bash
 conda activate ml
 pip install -r requirements.txt
-python -W ignore -m pytest  # run tests
-python -m tox run  # run tests in multiple Python versions
+python -W ignore -m pytest  # run tests in current environment
+python -m nox --noxfile=tests/noxfile.py  # run tests in multiple Python environments
 ```
 
 ## Pre-commit

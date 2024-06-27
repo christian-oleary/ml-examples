@@ -59,21 +59,3 @@ filterwarnings = "ignore::DeprecationWarning"
 testpaths = [ "tests" ]
 
 ################################################################################
-# TOX
-[tool.tox]
-legacy_tox_ini = """
-    [tox]
-    requires = tox>=4
-    env_list = py{310}, report
-
-    [testenv]
-    commands = pytest
-    skip_install = False
-    deps = -r{toxinidir}/requirements.txt
-
-    # [testenv:report]
-    # commands = coverage html; coverage report --fail-under=2.0; coverage erase
-    # deps = -r{toxinidir}/requirements.txt
-"""
-
-################################################################################
