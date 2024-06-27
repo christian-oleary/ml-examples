@@ -1,6 +1,6 @@
 # ml-examples
 
-[![CI](https://github.com/christian-oleary/ml-examples/actions/workflows/ci.yml/badge.svg)](https://github.com/christian-oleary/ml-examples/actions/workflows/ci.yml)
+[![CI](https://github.com/christian-oleary/ml-examples/actions/workflows/ci.yml/badge.svg)](https://github.com/christian-oleary/ml-examples/actions/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![linting: pylint](https://img.shields.io/badge/linting-pylint-green)](https://github.com/pylint-dev/pylint)
 [![Nox](https://img.shields.io/badge/%F0%9F%A6%8A-Nox-D85E00.svg)](https://github.com/wntrblm/nox)

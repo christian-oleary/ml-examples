@@ -21,19 +21,3 @@ jobs:
       - name: Test with pytest
         run: |
           pytest -ra --durations=0 --cov --cov-append --cov-report=xml
-          : .coverage confuses coveralls, remove it
-          rm -f .coverage
-      - name: upload coverage data to coveralls
-        uses: coverallsapp/github-action@v2.2.3
-        with:
-          parallel: true
-          flag-name: python-${{ matrix.python-version }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
-  coveralls-finish:
-    needs: pytest
-    runs-on: ubuntu-latest
-    steps:
-      - uses: coverallsapp/github-action@v2.2.3
-        with:
-          parallel-finished: true
