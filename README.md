@@ -111,13 +111,16 @@ Programming:
 
 ```bash
 conda activate ml
-python -W ignore -m pytest # run tests
-python -m pylint src # run linter
-python -m tox run # run tests in multiple Python versions, linter, coverage
+pip install -r requirements.dev.txt
+python -W ignore -m pytest  # run tests
+python -m tox run  # run tests in multiple Python versions, linter, coverage
 ```
 
 ## Pre-commit
 
 ```bash
+conda activate ml
+pip install -r requirements.dev.txt
 pre-commit install
+pre-commit
 ```
