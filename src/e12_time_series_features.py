@@ -77,10 +77,8 @@ def time_series_to_tabular():
     df, _, __ = create_regression_dataset()
 
     target_col = 'temp'  # The column in df we want to forecast
-    loopback = 6  # This is how far back we want to look for features
+    lag = 6  # This is how far back we want to look for features
     horizon = 3  # This is how far forward we want forecast
-
-    # Look up ACF plots
 
     # Fill in missing values
     cols = df.columns
@@ -93,7 +91,7 @@ def time_series_to_tabular():
 
         :param pd.DataFrame df: DataFrame
         :param str target: Name of target column (int)
-        :param int lag: Lookback window (int)
+        :param int lag: lag window (int)
         """
         for col in df.columns:
             for i in range(1, lag+1):
@@ -123,7 +121,7 @@ def time_series_to_tabular():
     print('\nInitial df shape:', df.shape)
 
     # Create feature data (X)
-    df = create_lag_features(df, target_col, loopback)
+    df = create_lag_features(df, target_col, lag)
     print('\ndf shape with feature columns:', df.shape)
 
     # Create targets to forecast (y)
@@ -229,3 +227,7 @@ def run():
 
 if __name__ == '__main__':
     run()
+
+    # Some useful links:
+    # https://machinelearningmastery.com/basic-feature-engineering-time-series-data-python/
+    # https://www.kaggle.com/code/ryanholbrook/time-series-as-features
