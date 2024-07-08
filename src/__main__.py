@@ -9,10 +9,23 @@ from src import (
 )
 
 
-def run_e11():
-    """Example of delaying an import to prevent TensorFlow slowing down other executions"""
-    from src import e11_custom_models  # noqa pylint: disable=import-outside-toplevel
-    return e11_custom_models
+class Runner():
+    """Example of delaying imports to prevent TF/Torch slowing down other executions"""
+
+    def __init__(self, exercise, error) -> None:
+        self.exercise = exercise
+        self.error = error
+
+    def run(self):
+        """Run exercise"""
+        if self.exercise == 11:
+            from src import e11_custom_models  # noqa pylint: disable=import-outside-toplevel
+            e11_custom_models.run()
+        elif self.exercise == 14:
+            from src import e14_pytorch  # noqa pylint: disable=import-outside-toplevel
+            e14_pytorch.run()
+        else:
+            ValueError(self.error)
 
 
 ERROR = 'Provide integer to select options. See README.md for details'
@@ -33,9 +46,10 @@ options = {
     8: e8_handling_models,
     9: e9_pipelines,
     10: e10_serialization,
-    11: run_e11(),
+    11: Runner(11, ERROR),
     12: e12_time_series_features,
     13: e13_feature_analysis,
+    14: Runner(14, ERROR),
 }
 
 try:

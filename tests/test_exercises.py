@@ -14,6 +14,7 @@ from src.e10_serialization import run as run_e10
 from src.e11_custom_models import run as run_e11
 from src.e12_time_series_features import run as run_e12
 from src.e13_feature_analysis import run as run_e13
+from src.e14_pytorch import run as run_e14
 
 
 def test_e1(): run_e1()
@@ -29,3 +30,4 @@ def test_e10(): run_e10()
 def test_e11(): run_e11()
 def test_e12(): run_e12()
 def test_e13(): run_e13()
+def test_e14(): run_e14()

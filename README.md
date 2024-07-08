@@ -35,6 +35,7 @@ python -m src 10  # Serializing/loading models        (e10_serialization.py)
 python -m src 11  # Creating custom models            (e11_custom_models.py)
 python -m src 12  # Time series feature engineering   (e12_time_series_features.py)
 python -m src 13  # Feature analysis                  (e13_feature_analysis.py)
+python -m src 14  # PyTorch models                    (ex14_pytorch.py)
 ```
 
 ## Concepts to Learn
