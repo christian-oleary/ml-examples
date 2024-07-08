@@ -1,19 +1,21 @@
 """PyTorch RNN, GRU and LSTM examples"""
 
 from __future__ import annotations
+from typing import Any
 
 import numpy as np
 import torch
-import torch.nn as nn
-import torch.optim as optim
-import torch.utils.data as data
+from torch import nn
+from torch import optim
+from torch.utils import data
 
 from src.e1_create_dataset import create_regression_dataset
 
 
 class RnnModel(nn.Module):
+    """RNN model"""
 
-    RNN_TYPE = nn.RNN
+    RNN_TYPE: Any = nn.RNN
 
     def __init__(self):
         super().__init__()
@@ -21,6 +23,7 @@ class RnnModel(nn.Module):
         self.linear = nn.Linear(32, 1)
 
     def forward(self, x):
+        """Expected by nn.Module"""
         x, _ = self.lstm(x)
         x = self.linear(x)
         return x
@@ -72,7 +75,7 @@ def train_torch_model(
             with torch.no_grad():
                 train_rmse = np.sqrt(loss_fn(model(X_train), y_train))
                 test_rmse = np.sqrt(loss_fn(model(X_test), y_test))
-            print("Epoch %d: train RMSE %.4f, test RMSE %.4f" % (epoch, train_rmse, test_rmse))
+            print(f"Epoch {epoch}: train RMSE {float(train_rmse)}, test RMSE {float(test_rmse)}")
     print(f'Finished training {model}')
 
 
