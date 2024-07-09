@@ -14,7 +14,17 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 
-# https://github.com/christian-oleary/ml-examples.git
+[project.urls]
+Homepage = "https://github.com/christian-oleary/ml-examples.git"
+Issues = "https://github.com/christian-oleary/ml-examples/issues"
+
+
+################################################################################
+# BLACK
+[tool.black]
+skip-string-normalization = true
+line-length = 100
+target-version = ['py39', 'py310']
 
 ################################################################################
 # COVERAGE
