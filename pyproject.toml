@@ -49,12 +49,19 @@ directory = "./docs/coverage_html_report"
 # MYPY
 [tool.mypy]
 ignore_missing_imports = true
-exclude = "tests"
+exclude = "src/tests"
 
 ################################################################################
 [tool.pydocstyle]
 inherit = false
-# ignore = ["D100", "D203", "D405"]
+ignore = [
+    "D107",
+    "D203",  # Blank line before class docstring
+    "D213",
+    "D400",  # First line should end in period 1
+    "D401",
+    "D415",  # First line should end in period 2
+]
 match = ".*\\.py"
 
 ################################################################################
@@ -72,7 +79,7 @@ log_cli_format = "%(asctime)s [%(levelname)8s] %(message)s"
 log_cli_date_format = "%Y-%m-%d %H:%M:%S"
 console_output_style = "progress"
 filterwarnings = "ignore::DeprecationWarning"
-testpaths = ["tests"]
+testpaths = ["src/tests"]
 
 ################################################################################
 # RUFF

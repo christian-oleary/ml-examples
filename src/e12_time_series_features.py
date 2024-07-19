@@ -168,7 +168,7 @@ def forecasting_example():
     print('\nTraining model')
     model = MultiOutputRegressor(LinearRegression())
     model.fit(X, y)
-    preds = model.predict(X)
+    predictions = model.predict(X)
     print('Model works')
 
     # 2. Another example using a pipeline and RandomizedSearchCV
@@ -198,10 +198,10 @@ def forecasting_example():
     # fmt: on
     clf = RandomizedSearchCV(pipeline, distributions, n_iter=10, cv=5, verbose=1)
     clf.fit(X, y)
-    preds = clf.predict(X)
+    predictions = clf.predict(X)
     print('Pipeline works\n')
 
-    return preds, y
+    return predictions, y
 
 
 def multioutput_metrics(y_test, y_pred):

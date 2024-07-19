@@ -1,4 +1,4 @@
-"""PyTorch RNN, GRU and LSTM examples"""
+"""PyTorch RNN, GRU and LSTM examples."""
 
 from __future__ import annotations
 from typing import Any
@@ -13,7 +13,7 @@ from src.e1_create_dataset import create_regression_dataset
 
 
 class RnnModel(nn.Module):
-    """RNN model"""
+    """RNN model."""
 
     RNN_TYPE: Any = nn.RNN
 
@@ -23,20 +23,20 @@ class RnnModel(nn.Module):
         self.linear = nn.Linear(32, 1)
 
     def forward(self, x):
-        """Expected by nn.Module"""
+        """Expected by nn.Module."""
         x, _ = self.lstm(x)
         x = self.linear(x)
         return x
 
 
 class LstmModel(RnnModel):
-    """LSTM model for forecasting"""
+    """LSTM model for forecasting."""
 
     RNN_TYPE = nn.LSTM
 
 
 class GruModel(RnnModel):
-    """GRU model for forecasting"""
+    """GRU model for forecasting."""
 
     RNN_TYPE = nn.GRU
 
@@ -50,13 +50,11 @@ def train_torch_model(
     epochs: int = 500,
     batch_size: int = 32,
 ):
-    """Train a PyTorch RNN-based model"""
+    """Train a PyTorch RNN-based model."""
     optimizer = optim.Adam(model.parameters())
     loss_fn = nn.MSELoss()
     loader = data.DataLoader(
-        data.TensorDataset(X_train, y_train),
-        shuffle=True,
-        batch_size=batch_size
+        data.TensorDataset(X_train, y_train), shuffle=True, batch_size=batch_size
     )
 
     for epoch in range(1, epochs + 1):
@@ -80,12 +78,10 @@ def train_torch_model(
 
 
 def run():
-    """Train RNN, GRU and LSTM models using PyTorch
+    """Train RNN, GRU and LSTM models using PyTorch. Example adapted from:
 
-    Example adapted from:
     https://machinelearningmastery.com/lstm-for-time-series-prediction-in-pytorch/
     """
-
     _, __, timeseries = create_regression_dataset()
     timeseries = timeseries.values.astype('float32').reshape(-1, 1)
     print(f'timeseries shape: {timeseries.shape}')
@@ -97,8 +93,8 @@ def run():
     def create_dataset(dataset: np.ndarray, lookback: int) -> tuple:
         features, target = [], []
         for i in range(len(dataset) - lookback):
-            features.append(dataset[i: i + lookback])
-            target.append(dataset[i + 1: i + lookback + 1])
+            features.append(dataset[i : i + lookback])
+            target.append(dataset[i + 1 : i + lookback + 1])
         return torch.tensor(features), torch.tensor(target)
 
     lookback = 6

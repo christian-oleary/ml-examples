@@ -1,4 +1,4 @@
-"""Analyse features and provide feature scores"""
+"""Analyse features and provide feature scores."""
 
 import os
 
@@ -13,9 +13,9 @@ from src.e1_create_dataset import create_regression_dataset
 
 # For an example of using feature selection in a pipeline, see example e9_pipelines.py
 
-def feature_scoring_regression(output_dir='feature_scores'):
-    """Feature scoring for a regression target"""
 
+def feature_scoring_regression(output_dir='feature_scores'):
+    """Feature scoring for a regression target."""
     df, X, y = create_regression_dataset()
 
     os.makedirs(output_dir, exist_ok=True)  # Make a directory called feature_scores
@@ -64,7 +64,7 @@ def feature_scoring_regression(output_dir='feature_scores'):
 
 
 def run():
-    """Run this exercise"""
+    """Run this exercise."""
     feature_scoring_regression()
 
 

@@ -1,4 +1,4 @@
-"""Nested Cross Validation"""
+"""Nested Cross Validation."""
 
 from sklearn.model_selection import KFold, RandomizedSearchCV
 from sklearn.tree import DecisionTreeRegressor
@@ -14,10 +14,9 @@ from src.e3_metrics import regression_scores
 # magnitude of this effect is primarily dependent on the size of the dataset and the stability
 # of the model. See Cawley and Talbot [1] for an analysis of these issues."
 
-def nested_cv():
-    """Example of Nested K-Fold Cross-Validation
-    """
 
+def nested_cv():
+    """Example of Nested K-Fold Cross-Validation."""
     _, X, y = create_regression_dataset()
 
     distributions = {
@@ -39,25 +38,23 @@ def nested_cv():
 
         # Inner CV (Train and test model)
         search = RandomizedSearchCV(
-            DecisionTreeRegressor(),
-            param_distributions=distributions,
-            n_iter=10,
-            cv=5,
-            verbose=1
+            DecisionTreeRegressor(), param_distributions=distributions, n_iter=10, cv=5, verbose=1
         )
         search_result = search.fit(X_train, y_train)
-        best_pipeline = search_result.best_estimator_  # Can reference the best estimator directly if need
+        best_pipeline = (
+            search_result.best_estimator_
+        )  # Can reference the best estimator directly if need
         preds = best_pipeline.predict(X_test)
         r2 = regression_scores(y_test, preds)['R2']
 
         outer_results.append(r2)
 
     print('Scores:', outer_results)
-    print('Average:', sum(outer_results)/len(outer_results))
+    print('Average:', sum(outer_results) / len(outer_results))
 
 
 def run():
-    """Run this exercise"""
+    """Run this exercise."""
     nested_cv()
 
 

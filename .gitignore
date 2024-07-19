@@ -30,6 +30,7 @@
 checkpoints/
 env*/
 data/
+feature_scores/
 ignore/
 logs/
 papers/

@@ -1,4 +1,4 @@
-"""Saving model results to an existing CSV file"""
+"""Saving model results to an existing CSV file."""
 
 import csv
 import os
@@ -16,7 +16,6 @@ def write_to_csv(scores_dir: str, scores_file: str, results: dict):
     :param str path: the result file path
     :param dict results: a dict containing results from running a model
     """
-
     np.set_printoptions(precision=4)
 
     if len(results) > 0:
@@ -31,7 +30,7 @@ def write_to_csv(scores_dir: str, scores_file: str, results: dict):
 
         # Create the results directory
         Path(scores_dir).mkdir(exist_ok=True)
-        path = Path(scores_dir)/scores_file
+        path = Path(scores_dir) / scores_file
 
         with open(path, 'a+', newline='', encoding='utf-8') as f:
             writer = csv.writer(f, delimiter=',')
@@ -49,7 +48,7 @@ def run():
     scores = {
         'model': 'Decision Tree',  # Record the model name
         'depth': model.tree_.max_depth,  # You can record information about models/experiments/etc.
-        **scores
+        **scores,
     }
     write_to_csv('results', 'scores.csv', scores)
 

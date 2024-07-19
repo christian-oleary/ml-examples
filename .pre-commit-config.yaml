@@ -2,7 +2,7 @@
 repos:
 
     -   repo: https://github.com/psf/black
-        rev: stable
+        rev: 24.4.2
         hooks:
         -   id: black
             args: ["--config=./pyproject.toml"]
@@ -45,6 +45,7 @@ repos:
         rev: 6.1.1
         hooks:
         -   id: pydocstyle
+            additional_dependencies: ['toml']
 
     -   repo: https://github.com/PyCQA/flake8
         rev: 7.0.0
@@ -56,4 +57,8 @@ repos:
         rev: v2.17.5
         hooks:
         -   id: pylint
-            args: ["--rcfile=.pylintrc", "--disable=import-error"]
+            args: [
+                "--rcfile=.pylintrc",
+                "--disable=import-error",
+                "--ignore=src/tests"
+            ]
