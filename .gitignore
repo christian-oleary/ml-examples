@@ -269,7 +269,7 @@ docs/sphinx/tests/
 *.mo
 *.pot
 
-# Unit test / coverage reports
+# Unit test / coverage reports / profiling
 .cache
 *.cover
 .coverage
@@ -283,6 +283,7 @@ htmlcov/
 nosetests.xml
 .hypothesis/
 .pytest_cache/
+prof/
 
 # pytype static type analyzer
 .pytype/
