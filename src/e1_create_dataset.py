@@ -1,6 +1,4 @@
-"""
-This exercise creates some example datasets that can be used in other exercises
-"""
+"""Exercise creates some example datasets that can be used in other exercises."""
 
 import os
 from pathlib import Path
@@ -11,7 +9,7 @@ from sklearn.datasets import fetch_openml, make_classification
 DEFAULT_CLASSIFICATION_PATH = './data/classification_data.csv'
 # These three examples give the same result:
 DEFAULT_REGRESSION_PATH = './data/regression_data.csv'
-DEFAULT_REGRESSION_PATH = str(Path('data')/'regression_data.csv')
+DEFAULT_REGRESSION_PATH = str(Path('data') / 'regression_data.csv')
 DEFAULT_REGRESSION_PATH = os.path.join('data', 'regression_data.csv')
 
 # Create a directory to hold data
@@ -19,7 +17,7 @@ os.makedirs('data', exist_ok=True)
 
 
 def create_regression_dataset(path=DEFAULT_REGRESSION_PATH, num_rows=200):
-    """Create a regression dataset (could also use sklearn.datasets.make_regression)
+    """Create a regression dataset (could also use sklearn.datasets.make_regression).
 
     :return tuple: DataFrame of regression data
     """
@@ -42,7 +40,7 @@ def create_regression_dataset(path=DEFAULT_REGRESSION_PATH, num_rows=200):
 
 
 def create_classification_dataset(path: str = DEFAULT_CLASSIFICATION_PATH, n_samples: int = 200):
-    """Create a classification dataset
+    """Create a classification dataset.
 
     :param str path: DataFrame of classification data
     :return tuple: DataFrame of classification data
@@ -61,14 +59,14 @@ def create_classification_dataset(path: str = DEFAULT_CLASSIFICATION_PATH, n_sam
 
 
 def create_datasets() -> tuple:
-    """Create example datasets"""
+    """Create example datasets."""
     df_regression, _, __ = create_regression_dataset()
     df_classification, _, __ = create_classification_dataset()
     return df_regression, df_classification
 
 
 def run():
-    """Run this exercise"""
+    """Run this exercise."""
     create_datasets()
 
 

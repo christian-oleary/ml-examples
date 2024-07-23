@@ -1,4 +1,4 @@
-"""Examples of training scikit-learn models"""
+"""Examples of training scikit-learn models."""
 
 from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
 
@@ -6,7 +6,7 @@ from src.e1_create_dataset import create_classification_dataset, create_regressi
 
 
 def train_regression():
-    """Train a scikit-learn regression model"""
+    """Train a scikit-learn regression model."""
     _, X, y = create_regression_dataset()
 
     # Create the model
@@ -25,7 +25,7 @@ def train_regression():
 
 
 def train_classification():
-    """Train a scikit-learn classification model"""
+    """Train a scikit-learn classification model."""
     _, X, y = create_classification_dataset()
 
     # Create the model
@@ -43,7 +43,7 @@ def train_classification():
 
 
 def run():
-    """Run this exercise"""
+    """Run this exercise."""
     regression_model, preds, _, __ = train_regression()
     print('\nRegression predictions:', preds, type(preds), preds.shape)
     print('Model type:', type(regression_model))

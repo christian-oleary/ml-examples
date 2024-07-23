@@ -2,17 +2,10 @@
 repos:
 
     -   repo: https://github.com/psf/black
-        rev: stable
+        rev: 24.4.2
         hooks:
         -   id: black
             args: ["--config=./pyproject.toml"]
-
-    -   repo: https://github.com/pre-commit/mirrors-mypy
-        rev: v1.8.0
-        hooks:
-        -   id: mypy
-            args: [ "--install-types", "--non-interactive" ]
-            exclude: ^(docs/|example-plugin/)
 
     -   repo: https://github.com/pre-commit/pre-commit-hooks
         rev: v3.2.0
@@ -41,8 +34,31 @@ repos:
         -   id: ruff
             args: ["--fix", "--output-format=full"]
 
+    -   repo: https://github.com/pre-commit/mirrors-mypy
+        rev: v1.8.0
+        hooks:
+        -   id: mypy
+            args: [ "--install-types", "--non-interactive" ]
+            exclude: ^(docs/|example-plugin/)
+
+    -   repo: https://github.com/PyCQA/pydocstyle
+        rev: 6.1.1
+        hooks:
+        -   id: pydocstyle
+            additional_dependencies: ['toml']
+
+    -   repo: https://github.com/PyCQA/flake8
+        rev: 7.0.0
+        hooks:
+        -   id: flake8
+            args: ["--jobs=1"]
+
     -   repo: https://github.com/PyCQA/pylint
         rev: v2.17.5
         hooks:
         -   id: pylint
-            args: ["--rcfile=.pylintrc", "--disable=import-error"]
+            args: [
+                "--rcfile=.pylintrc",
+                "--disable=import-error",
+                "--ignore=src/tests"
+            ]

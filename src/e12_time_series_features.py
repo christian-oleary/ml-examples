@@ -1,4 +1,4 @@
-"""Feature engineering for scikit-learn regression models"""
+"""Feature engineering for scikit-learn regression models."""
 
 from pathlib import Path
 
@@ -17,17 +17,16 @@ from sklearn.tree import DecisionTreeRegressor
 from src.e1_create_dataset import create_regression_dataset
 
 
-FEATURES_DIR = Path('data')/'features'
+FEATURES_DIR = Path('data') / 'features'
 FEATURES_DIR.mkdir(exist_ok=True)
 
 
-def daily_statistics(input_path=None, output_path=FEATURES_DIR/'e12_daily_statistics.csv'):
-    """Get daily mean, minimum and maximum values for each column in a time series dataset
+def daily_statistics(input_path=None, output_path=FEATURES_DIR / 'e12_daily_statistics.csv'):
+    """Get daily mean, minimum and maximum values for each column in a time series dataset.
 
     :param input_path: Path to input CSV file (str), defaults to None
     :param output_path: Path to output CSV file (str)
     """
-
     # Read the dataset into a DataFrame
     if input_path is None:
         df, _, __ = create_regression_dataset()
@@ -73,7 +72,7 @@ def daily_statistics(input_path=None, output_path=FEATURES_DIR/'e12_daily_statis
 
 
 def time_series_to_tabular():
-    """Convert time series data to a tabular format usable by a regression model"""
+    """Convert time series data to a tabular format usable by a regression model."""
     df, _, __ = create_regression_dataset()
 
     target_col = 'temp'  # The column in df we want to forecast
@@ -94,7 +93,7 @@ def time_series_to_tabular():
         :param int lag: lag window (int)
         """
         for col in df.columns:
-            for i in range(1, lag+1):
+            for i in range(1, lag + 1):
                 df[f'{col}-{i}'] = df[col].shift(i)
 
             # Drop non-target values (we only keep historical feature values)
@@ -107,7 +106,7 @@ def time_series_to_tabular():
         return df
 
     def create_future_values(df, target, horizon):
-        """Create target columns for horizons greater than 1"""
+        """Create target columns for horizons greater than 1."""
         targets = [target]
         for i in range(1, horizon):
             col_name = f'{target}+{i}'
@@ -156,20 +155,20 @@ def time_series_to_tabular():
     # Examine the shapes of the created dataframes and arrays.
     # Look at the column names, e.g.: "print(df.columns)"
 
-    X.to_csv(FEATURES_DIR/'e12_features.csv')
-    y.to_csv(FEATURES_DIR/'e12_targets.csv')
+    X.to_csv(FEATURES_DIR / 'e12_features.csv')
+    y.to_csv(FEATURES_DIR / 'e12_targets.csv')
     return X, y
 
 
 def forecasting_example():
-    """Examples of fitting forecasting models using the methodology of time_series_to_tabular()"""
+    """Examples of fitting forecasting models using the methodology of time_series_to_tabular()."""
     X, y = time_series_to_tabular()
 
     # 1. Simple example using a model
     print('\nTraining model')
     model = MultiOutputRegressor(LinearRegression())
     model.fit(X, y)
-    preds = model.predict(X)
+    predictions = model.predict(X)
     print('Model works')
 
     # 2. Another example using a pipeline and RandomizedSearchCV
@@ -180,6 +179,7 @@ def forecasting_example():
 
     model_space = {'multioutput__estimator__model__max_depth': [5, 10, 15, 20]}
 
+    # fmt: off
     distributions = {
         **scaler_space,
         **feature_selector_space,
@@ -195,23 +195,24 @@ def forecasting_example():
             ])
         ))
     ])
+    # fmt: on
     clf = RandomizedSearchCV(pipeline, distributions, n_iter=10, cv=5, verbose=1)
     clf.fit(X, y)
-    preds = clf.predict(X)
+    predictions = clf.predict(X)
     print('Pipeline works\n')
 
-    return preds, y
+    return predictions, y
 
 
 def multioutput_metrics(y_test, y_pred):
-    """Metrics for multioutput data"""
+    """Metrics for multioutput data."""
     mae = mean_absolute_error(y_test, y_pred, multioutput='raw_values')
     print('\nMAE', mae)
     # How many values are in MAE? Check horizon
 
 
 def run():
-    """Run this exercise"""
+    """Run this exercise."""
     daily_statistics()
 
     print('\n--- TS TO TABULAR ---')

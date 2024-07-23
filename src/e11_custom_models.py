@@ -1,4 +1,4 @@
-"""Creating custom models in a class to be compatible with scikit-learn"""
+"""Creating custom models in a class to be compatible with scikit-learn."""
 
 import numpy as np
 import pandas as pd
@@ -15,26 +15,26 @@ from src.e3_metrics import classification_scores
 
 
 class ExampleModel:
-    """Empty class with methods that are needed to work with scikit-learn"""
+    """Empty class with methods that are needed to work with scikit-learn."""
 
     search_space: dict = {}
 
     def __init__(self, **kwargs):
-        """Instantiate"""
+        """Instantiate."""
 
     def fit(self, X, y):
-        """Train a model"""
+        """Train a model."""
 
     def predict(self, X):
-        """Make predictions"""
+        """Make predictions."""
         return np.ones(len(X))
 
     def get_params(self, *_, **__):
-        """Return parameters as a dictionary"""
+        """Return parameters as a dictionary."""
         return {}
 
     def set_params(self, **params):
-        """Update parameters"""
+        """Update parameters."""
         if not params:
             return self
         for key, value in params.items():
@@ -42,9 +42,10 @@ class ExampleModel:
         return self
 
 
-class DNN():
-    """Densely-connected Neural Network classifier"""
+class DNN:
+    """Densely-connected Neural Network classifier."""
 
+    # fmt: off
     search_space: dict = {
         'architecture': [
             [64], [32], [16], [8], [4], [2], [1],  # 1 layer
@@ -61,6 +62,7 @@ class DNN():
         'optimizer': ['adam'],
         'reduce_lr': [True, False],
     }
+    # fmt: on
 
     def __init__(self, **kwargs):
         # Get values or assign default values if missing
@@ -79,7 +81,7 @@ class DNN():
         self.input_shape = None
 
     def fit(self, X, y):
-        """Train a densely-connected neural network
+        """Train a densely-connected neural network.
 
         :param pd.DataFrame X: Features
         :param np.ndarray y: Target
@@ -93,21 +95,26 @@ class DNN():
             raise ValueError('Only one class found in y')
 
         self.class_weights = {
-            int(k): (1 / v) * (y.shape[0] / num_labels) / 2
-            for k, v in label_counts.items()
+            int(k): (1 / v) * (y.shape[0] / num_labels) / 2 for k, v in label_counts.items()
         }
         y = to_categorical(y)
 
         # Initialize callbacks
         callbacks = [TerminateOnNaN()]
         if self.early_stopping is not None:
-            callbacks += [EarlyStopping(
-                monitor='val_loss', mode='min',
-                patience=self.early_stopping, verbose=self.verbose
-            )]
+            callbacks += [
+                EarlyStopping(
+                    monitor='val_loss',
+                    mode='min',
+                    patience=self.early_stopping,
+                    verbose=self.verbose,
+                )
+            ]
 
         if self.reduce_lr:
-            callbacks += [ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=3, min_lr=0.001)]
+            callbacks += [
+                ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=3, min_lr=0.001)
+            ]
 
         # Create model
         self.model = Sequential([Input(self.input_shape)])
@@ -126,23 +133,26 @@ class DNN():
 
         # Compile model
         metric = CategoricalAccuracy('balanced_accuracy')
-        self.model.compile(loss='categorical_crossentropy', optimizer=self.optimizer, metrics=[metric])
+        self.model.compile(
+            loss='categorical_crossentropy', optimizer=self.optimizer, metrics=[metric]
+        )
         if self.verbose > 1:
             print(self.model.summary())
 
         # Train model
         self.model.fit(
-            X, y,
+            X,
+            y,
             validation_split=0.1,
             class_weight=self.class_weights,
             epochs=self.epochs,
             batch_size=self.batch_size,
             verbose=self.verbose,
-            callbacks=callbacks
+            callbacks=callbacks,
         )
 
     def predict(self, X):
-        """Make predictions"""
+        """Make predictions."""
         predict_raw = self.model.predict(X, verbose=self.verbose)
         predictions = np.argmax(predict_raw, axis=1)
         return predictions
@@ -170,16 +180,20 @@ class DNN():
 
 
 def run():
-    """Run this exercise"""
+    """Run this exercise."""
     custom_models = {
-        'DecisionTreeClassifier': (DecisionTreeClassifier, {'max_depth': [8, 16, 32, 64, 128, None]}),
+        'DecisionTreeClassifier': (
+            DecisionTreeClassifier,
+            {'max_depth': [8, 16, 32, 64, 128, None]},
+        ),
         ExampleModel.__name__: (ExampleModel, ExampleModel.search_space),
         DNN.__name__: (DNN, DNN.search_space),
     }
 
     _, features, target = create_classification_dataset(n_samples=100)
     X_train, X_test, y_train, y_test = train_test_split(
-        features, target, test_size=0.2, random_state=0, stratify=target)
+        features, target, test_size=0.2, random_state=0, stratify=target
+    )
 
     for model_name, (model, distributions) in custom_models.items():
         print(f'\nTraining: {model_name}')

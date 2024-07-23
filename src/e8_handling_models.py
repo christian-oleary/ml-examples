@@ -1,10 +1,11 @@
-"""Optimizing many models"""
+"""Optimizing many models."""
 
 import warnings
 
 # flake8: noqa: E402
 # pylint: disable=C0413
 from sklearn.exceptions import ConvergenceWarning
+
 warnings.simplefilter('ignore', category=ConvergenceWarning)
 warnings.simplefilter('ignore', category=FutureWarning)
 warnings.simplefilter('ignore', category=UserWarning)
@@ -15,8 +16,16 @@ from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 from sklearn.gaussian_process import GaussianProcessRegressor
 from sklearn.kernel_ridge import KernelRidge
 from sklearn.linear_model import (
-    BayesianRidge, ElasticNet, Lasso, LinearRegression, LogisticRegression,
-    PassiveAggressiveClassifier, PassiveAggressiveRegressor, Perceptron, Ridge, SGDRegressor
+    BayesianRidge,
+    ElasticNet,
+    Lasso,
+    LinearRegression,
+    LogisticRegression,
+    PassiveAggressiveClassifier,
+    PassiveAggressiveRegressor,
+    Perceptron,
+    Ridge,
+    SGDRegressor,
 )
 from sklearn.model_selection import RandomizedSearchCV, train_test_split
 from sklearn.naive_bayes import BernoulliNB, GaussianNB
@@ -32,19 +41,16 @@ from src.e3_metrics import regression_scores
 example = {
     # KEY                  : ( ModelClass, { 'parameter': [ option1, option2, ... ] } )
     'DecisionTreeRegressor': (
-
         DecisionTreeRegressor,  # <- First element of tuple is the model class
-
-        {                       # <- Second element of tuple is the search space
+        {  # <- Second element of tuple is the search space
             'criterion': ['absolute_error', 'friedman_mse', 'squared_error'],
             'splitter': ['best', 'random'],
             'max_depth': [8, 16, 32, 64, 128, None],
-        }
-
+        },
     ),
 }
 
-
+# fmt: off
 regression_models = {
     BayesianRidge.__name__: (BayesianRidge, {
         'tol': [1e-2, 1e-3, 1e-4],
@@ -236,10 +242,11 @@ classification_models = {
         'max_iter': [100, 1000, 10000],
     }),
 }
+# fmt: on
 
 
 def run():
-    """Run this exercise"""
+    """Run this exercise."""
     _, X, y = create_regression_dataset()
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
 

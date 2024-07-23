@@ -1,4 +1,4 @@
-"""Using pipelines in scikit-learn"""
+"""Using pipelines in scikit-learn."""
 
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.discriminant_analysis import StandardScaler
@@ -12,8 +12,7 @@ from src.e8_handling_models import regression_models
 
 
 def build_pipeline(model_name, debug=False):
-    """Build and test a scikit-learn Pipeline object"""
-
+    """Build and test a scikit-learn Pipeline object."""
     # Read this: https://scikit-learn.org/stable/modules/compose.html#pipeline
     print(f'Training: {model_name}')
 
@@ -26,7 +25,7 @@ def build_pipeline(model_name, debug=False):
 
     distributions = {
         **model_space,
-        'feature_selector__k': [1, 2, 3]  # Included here for demonstration
+        'feature_selector__k': [1, 2, 3],  # Included here for demonstration
     }
 
     # The "distributions" dictionary will something look like this:
@@ -38,20 +37,18 @@ def build_pipeline(model_name, debug=False):
     # }
 
     class Debugger(BaseEstimator, TransformerMixin):
-        """Useful for debugging pipelines"""
+        """Useful for debugging pipelines."""
+
         def __init__(self, name=''):
             self.name = name
 
         def fit(self, X, _):
-            """
-            No 'fitting' to be done. You can print, log or save data
-            to see what data looks like here in the pipeline
-            """
+            """No 'fitting' to be done. Print, log or save data for debugging."""
             print(f'Pipeline debugger {self.name} - X.shape: {X.shape}')
             return self
 
         def transform(self, X, **_):
-            """No action needed here"""
+            """No action needed here."""
             return X
 
     pipeline_parts = [
@@ -77,7 +74,7 @@ def build_pipeline(model_name, debug=False):
 
 
 def run():
-    """Run this exercise using a Decision Tree model"""
+    """Run this exercise using a Decision Tree model."""
     build_pipeline('DecisionTreeRegressor')
 
 

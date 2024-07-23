@@ -1,4 +1,4 @@
-"""PyTorch RNN, GRU and LSTM examples"""
+"""PyTorch RNN, GRU and LSTM examples."""
 
 from __future__ import annotations
 from typing import Any
@@ -13,7 +13,7 @@ from src.e1_create_dataset import create_regression_dataset
 
 
 class RnnModel(nn.Module):
-    """RNN model"""
+    """RNN model."""
 
     RNN_TYPE: Any = nn.RNN
 
@@ -23,20 +23,20 @@ class RnnModel(nn.Module):
         self.linear = nn.Linear(32, 1)
 
     def forward(self, x):
-        """Expected by nn.Module"""
+        """Expected by nn.Module."""
         x, _ = self.lstm(x)
         x = self.linear(x)
         return x
 
 
 class LstmModel(RnnModel):
-    """LSTM model for forecasting"""
+    """LSTM model for forecasting."""
 
     RNN_TYPE = nn.LSTM
 
 
 class GruModel(RnnModel):
-    """GRU model for forecasting"""
+    """GRU model for forecasting."""
 
     RNN_TYPE = nn.GRU
 
@@ -50,7 +50,7 @@ def train_torch_model(
     epochs: int = 500,
     batch_size: int = 32,
 ):
-    """Train a PyTorch RNN-based model"""
+    """Train a PyTorch RNN-based model."""
     optimizer = optim.Adam(model.parameters())
     loss_fn = nn.MSELoss()
     loader = data.DataLoader(
@@ -78,15 +78,13 @@ def train_torch_model(
 
 
 def run():
-    """Train RNN, GRU and LSTM models using PyTorch
+    """Train RNN, GRU and LSTM models using PyTorch. Example adapted from:
 
-    Example adapted from:
     https://machinelearningmastery.com/lstm-for-time-series-prediction-in-pytorch/
     """
-
     _, __, time_series = create_regression_dataset()
     time_series = time_series.values.astype('float32').reshape(-1, 1)
-    print(f'time series shape: {time_series.shape}')
+    print(f'time_series shape: {time_series.shape}')
 
     # train-test split for time series
     train_size = int(len(time_series) * 0.8)

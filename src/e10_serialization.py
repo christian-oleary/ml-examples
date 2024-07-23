@@ -1,4 +1,4 @@
-"""Saving models to disk"""
+"""Saving models to disk."""
 
 from joblib import dump, load
 
@@ -8,7 +8,7 @@ from src.e2_train_models import train_regression
 
 
 def run():
-    """Run this exercise"""
+    """Run this exercise."""
     # Train an example model
     model, _, X, ___ = train_regression()
 

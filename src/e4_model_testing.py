@@ -1,4 +1,4 @@
-"""Testing model performance using Holdout and Cross-Validation (CV)"""
+"""Testing model performance using Holdout and Cross-Validation (CV)."""
 
 from sklearn.model_selection import cross_validate, train_test_split
 from sklearn.tree import DecisionTreeClassifier
@@ -14,8 +14,7 @@ from src.e3_metrics import classification_scores
 
 
 def holdout():
-    """Train a model using a training set and a test set"""
-
+    """Train a model using a training set and a test set."""
     # Create a dataset and a model
     _, X, y = create_classification_dataset()
     model = DecisionTreeClassifier()
@@ -36,18 +35,19 @@ def holdout():
 
 
 def cross_validation():
-    """Train a model using Cross Validation"""
-
+    """Train a model using Cross Validation."""
     # Create a dataset and a model
     _, X, y = create_classification_dataset()
 
     # Train and evaluate the model
     # See other scoring metrics here: https://scikit-learn.org/stable/modules/model_evaluation.html#scoring-parameter
     cv_results = cross_validate(
-        DecisionTreeClassifier(), X, y,
+        DecisionTreeClassifier(),
+        X,
+        y,
         cv=5,  # Use 5 folds
         scoring='accuracy',  # Measure model performance using accuracy
-        return_train_score=True  # Record results
+        return_train_score=True,  # Record results
     )
     print('\nAverage validation score:', cv_results['train_score'].mean())
     print('Testing scores:', cv_results['test_score'])
@@ -55,7 +55,7 @@ def cross_validation():
 
 
 def run():
-    """Run this exercise"""
+    """Run this exercise."""
     holdout()
     cross_validation()
 
