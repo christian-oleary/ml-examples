@@ -7,7 +7,7 @@ name = "ml_examples"
 authors = [ { name="Christian O'Leary", email="christian.oleary@mtu.com" }, ]
 description = "Example Python code for machine learning"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.9"
 dynamic = [ "version", "dependencies", "optional-dependencies" ]
 classifiers = [
     "Programming Language :: Python :: 3",

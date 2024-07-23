@@ -54,9 +54,7 @@ def train_torch_model(
     optimizer = optim.Adam(model.parameters())
     loss_fn = nn.MSELoss()
     loader = data.DataLoader(
-        data.TensorDataset(X_train, y_train),
-        shuffle=True,
-        batch_size=batch_size
+        data.TensorDataset(X_train, y_train), shuffle=True, batch_size=batch_size
     )
 
     for epoch in range(1, epochs + 1):
@@ -86,19 +84,19 @@ def run():
     https://machinelearningmastery.com/lstm-for-time-series-prediction-in-pytorch/
     """
 
-    _, __, timeseries = create_regression_dataset()
-    timeseries = timeseries.values.astype('float32').reshape(-1, 1)
-    print(f'timeseries shape: {timeseries.shape}')
+    _, __, time_series = create_regression_dataset()
+    time_series = time_series.values.astype('float32').reshape(-1, 1)
+    print(f'time series shape: {time_series.shape}')
 
     # train-test split for time series
-    train_size = int(len(timeseries) * 0.8)
-    train, test = timeseries[:train_size], timeseries[train_size:]
+    train_size = int(len(time_series) * 0.8)
+    train, test = time_series[:train_size], time_series[train_size:]
 
     def create_dataset(dataset: np.ndarray, lookback: int) -> tuple:
         features, target = [], []
         for i in range(len(dataset) - lookback):
-            features.append(dataset[i: i + lookback])
-            target.append(dataset[i + 1: i + lookback + 1])
+            features.append(dataset[i : i + lookback])
+            target.append(dataset[i + 1 : i + lookback + 1])
         return torch.tensor(features), torch.tensor(target)
 
     lookback = 6

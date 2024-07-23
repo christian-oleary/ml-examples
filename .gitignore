@@ -9,8 +9,6 @@
 # General
 ###########################
 
-!requirements.txt
-
 # Data/Backups
 *.backup
 *.csv
@@ -19,6 +17,9 @@
 *.txt
 *.wav
 *_ignore.ipynb
+
+# Requirements
+!requirements.txt
 
 # Images
 *.png
