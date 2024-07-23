@@ -51,6 +51,7 @@ directory = "./docs/coverage_html_report"
 profile = "black"
 src_paths = ["isort", "test"]
 known_first_party = "src"
+line_length = 100
 
 ################################################################################
 # MYPY
