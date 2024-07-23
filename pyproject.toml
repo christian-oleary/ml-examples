@@ -46,6 +46,12 @@ fail_under = 90
 directory = "./docs/coverage_html_report"
 
 ################################################################################
+# ISORT
+[tool.isort]
+profile = "black"
+src_paths = ["isort", "test"]
+
+################################################################################
 # MYPY
 [tool.mypy]
 ignore_missing_imports = true

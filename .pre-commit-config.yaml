@@ -7,6 +7,11 @@ repos:
         -   id: black
             args: ["--config=./pyproject.toml"]
 
+    # -   repo: https://github.com/pycqa/isort
+    #     rev: 5.10.1
+    #     hooks:
+    #     -   id: isort
+
     -   repo: https://github.com/pre-commit/pre-commit-hooks
         rev: v3.2.0
         hooks:
@@ -14,12 +19,16 @@ repos:
         -   id: check-ast
         -   id: check-docstring-first
         -   id: check-executables-have-shebangs
+        -   id: check-json
         -   id: check-merge-conflict
         -   id: check-toml
+        -   id: check-xml
         -   id: check-yaml
         -   id: debug-statements
         -   id: detect-private-key
         -   id: end-of-file-fixer
+        -   id: mixed-line-ending
+        # -   id: requirements-txt-fixer
         -   id: trailing-whitespace
 
     -   repo: https://github.com/pre-commit/pygrep-hooks
