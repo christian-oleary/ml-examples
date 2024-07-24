@@ -3,8 +3,8 @@
 from sklearn.model_selection import KFold, RandomizedSearchCV
 from sklearn.tree import DecisionTreeRegressor
 
-from src.e1_create_dataset import create_regression_dataset
-from src.e3_metrics import regression_scores
+from ml.e1_create_dataset import create_regression_dataset
+from ml.e3_metrics import regression_scores
 
 
 # Recommended reading:

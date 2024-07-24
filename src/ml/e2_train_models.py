@@ -2,7 +2,7 @@
 
 from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
 
-from src.e1_create_dataset import create_classification_dataset, create_regression_dataset
+from ml.e1_create_dataset import create_classification_dataset, create_regression_dataset
 
 
 def train_regression():

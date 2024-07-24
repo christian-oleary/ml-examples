@@ -2,7 +2,7 @@
 
 from joblib import dump, load
 
-from src.e2_train_models import train_regression
+from ml.e2_train_models import train_regression
 
 # Recommended reading: https://scikit-learn.org/stable/model_persistence.html
 

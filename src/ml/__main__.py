@@ -7,7 +7,7 @@ from __future__ import annotations
 import typing
 import sys
 
-from src import (
+from ml import (
     e1_create_dataset,
     e2_train_models,
     e3_metrics,
@@ -34,11 +34,11 @@ class Runner:
     def run(self):
         """Run exercise."""
         if self.exercise == 11:
-            from src import e11_custom_models
+            from ml import e11_custom_models
 
             e11_custom_models.run()
         elif self.exercise == 14:
-            from src import e14_pytorch
+            from ml import e14_pytorch
 
             e14_pytorch.run()
         else:

@@ -14,7 +14,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import Normalizer
 from sklearn.tree import DecisionTreeRegressor
 
-from src.e1_create_dataset import create_regression_dataset
+from ml.e1_create_dataset import create_regression_dataset
 
 
 FEATURES_DIR = Path('data') / 'features'

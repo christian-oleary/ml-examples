@@ -10,8 +10,8 @@ from tensorflow.keras.metrics import CategoricalAccuracy
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.utils import to_categorical
 
-from src.e1_create_dataset import create_classification_dataset
-from src.e3_metrics import classification_scores
+from ml.e1_create_dataset import create_classification_dataset
+from ml.e3_metrics import classification_scores
 
 
 class ExampleModel:

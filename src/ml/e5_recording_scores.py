@@ -6,8 +6,8 @@ from pathlib import Path
 
 import numpy as np
 
-from src.e2_train_models import train_classification
-from src.e3_metrics import classification_scores
+from ml.e2_train_models import train_classification
+from ml.e3_metrics import classification_scores
 
 
 def write_to_csv(scores_dir: str, scores_file: str, results: dict):

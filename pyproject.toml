@@ -3,7 +3,7 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "ml_examples"
+name = "ml"
 authors = [ { name="Christian O'Leary", email="christian.oleary@mtu.com" }, ]
 description = "Example Python code for machine learning"
 readme = "README.md"
@@ -30,6 +30,8 @@ target-version = ['py39', 'py310']
 # COVERAGE
 [tool.coverage.run]
 branch = true
+source = ["src/ml/"]
+omit = ["*tests*"]
 
 [tool.coverage.report]
 exclude_also = [ # Regexes for lines to exclude from consideration
@@ -50,14 +52,14 @@ directory = "./docs/coverage_html_report"
 [tool.isort]
 profile = "black"
 src_paths = ["isort", "test"]
-known_first_party = "src"
+known_first_party = "src/ml"
 line_length = 100
 
 ################################################################################
 # MYPY
 [tool.mypy]
 ignore_missing_imports = true
-exclude = "src/tests"
+exclude = "tests"
 
 ################################################################################
 # PYDOCSTYLE
@@ -88,7 +90,7 @@ log_cli_format = "%(asctime)s [%(levelname)8s] %(message)s"
 log_cli_date_format = "%Y-%m-%d %H:%M:%S"
 console_output_style = "progress"
 filterwarnings = "ignore::DeprecationWarning"
-testpaths = ["src/tests"]
+testpaths = ["tests"]
 
 ################################################################################
 # RUFF

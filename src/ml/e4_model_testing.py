@@ -3,8 +3,8 @@
 from sklearn.model_selection import cross_validate, train_test_split
 from sklearn.tree import DecisionTreeClassifier
 
-from src.e1_create_dataset import create_classification_dataset
-from src.e3_metrics import classification_scores
+from ml.e1_create_dataset import create_classification_dataset
+from ml.e3_metrics import classification_scores
 
 # Recommended reading:
 # https://scikit-learn.org/stable/modules/cross_validation.html

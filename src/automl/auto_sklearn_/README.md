@@ -2,14 +2,31 @@
 
 ## Running in Docker
 
-1. Install Docker.
-
-2. Run:
+- Install [Docker](https://docs.docker.com/engine/install/).
+- Run:
 
 ```bash
-docker pull mfeurer/auto-sklearn:master
-docker run -it mfeurer/auto-sklearn:master
-docker run -it -v ${PWD}:/opt/nb -p 8888:8888 mfeurer/auto-sklearn:master /bin/bash -c "mkdir -p /opt/nb && jupyter notebook --notebook-dir=/opt/nb --ip='0.0.0.0' --port=8888 --no-browser --allow-root"
+# Build image
+docker build -f ./src/automl/auto_sklearn_/Dockerfile -t auto-sklearn .
+
+# Run container from image
+docker run -td --rm --name auto-sklearn -p 8000:8000 --mount type=bind,src=$PWD,target=/usr/src/ml/ml-examples auto-sklearn
+
+# Open terminal inside container
+docker exec -it auto-sklearn bash
+
+# View project files
+cd /usr/src/ml/ml-examples
+ls -la && pwd
+
+# Run code using python3 commands
+python ./src/automl/auto_sklearn_/auto_sklearn_example.py
+
+# Optional:
+# Stop container
+docker stop auto-sklearn
+# Delete container
+docker rm auto-sklearn
 ```
 
 ## Running in Windows
@@ -28,10 +45,6 @@ From issue 860:
 3. Run the following in the Ubuntu terminal:
 
 ```bash
-conda create -n ml python=3.10 -y
-conda activate ml
-pip install -r requirements.txt
-
 sudo apt-get install software-properties-common -y
 sudo apt-add-repository universe -y
 sudo apt-get update -y
@@ -46,11 +59,12 @@ curl https://raw.githubusercontent.com/automl/auto-sklearn/master/requirements.t
 pip uninstall numpy -y
 pip uninstall numpy -y
 
-pip install -r ./src/automl/auto_sklearn_/requirements.txt
+pip install auto-sklearn
 ```
 
 Or:
 
 ```bash
 sudo apt-get install python-dev libxml2-dev libxslt-dev
+pip install auto-sklearn
 ```

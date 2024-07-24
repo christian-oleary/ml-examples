@@ -7,36 +7,41 @@
 
 Machine Learning Examples
 
-## Installation
+## Running ML Examples
+
+### Installation
 
 With Miniconda:
 
 ```bash
 conda create -n ml python=3.10 -y
 conda activate ml
+conda install pre_commit
 pip install -r requirements.txt
 ```
-
-## Usage
 
 Read through examples before running (copy and paste into terminal).
 
 ```bash
-python -m src 1   # Creating sample datasets          (e1_create_dataset.py)
-python -m src 2   # Training models with scikit-learn (e2_train_models.py)
-python -m src 3   # Metrics for evaluating models     (e3_metrics.py)
-python -m src 4   # Testing models                    (e4_model_testing.py)
-python -m src 5   # Recording data in CSV files       (e5_recording_scores.py)
-python -m src 6   # Tuning models                     (e6_hyperparameter_optimization.py)
-python -m src 7   # Nested CV                         (e7_nested_cross_validation.py)
-python -m src 8   # Training many models              (e8_handling_models.py)
-python -m src 9   # Pipelines in scikit-learn         (e9_pipelines.py)
-python -m src 10  # Serializing/loading models        (e10_serialization.py)
-python -m src 11  # Creating custom models            (e11_custom_models.py)
-python -m src 12  # Time series feature engineering   (e12_time_series_features.py)
-python -m src 13  # Feature analysis                  (e13_feature_analysis.py)
-python -m src 14  # PyTorch models                    (ex14_pytorch.py)
+python -m ml 1   # Creating sample datasets          (e1_create_dataset.py)
+python -m ml 2   # Training models with scikit-learn (e2_train_models.py)
+python -m ml 3   # Metrics for evaluating models     (e3_metrics.py)
+python -m ml 4   # Testing models                    (e4_model_testing.py)
+python -m ml 5   # Recording data in CSV files       (e5_recording_scores.py)
+python -m ml 6   # Tuning models                     (e6_hyperparameter_optimization.py)
+python -m ml 7   # Nested CV                         (e7_nested_cross_validation.py)
+python -m ml 8   # Training many models              (e8_handling_models.py)
+python -m ml 9   # Pipelines in scikit-learn         (e9_pipelines.py)
+python -m ml 10  # Serializing/loading models        (e10_serialization.py)
+python -m ml 11  # Creating custom models            (e11_custom_models.py)
+python -m ml 12  # Time series feature engineering   (e12_time_series_features.py)
+python -m ml 13  # Feature analysis                  (e13_feature_analysis.py)
+python -m ml 14  # PyTorch models                    (e14_pytorch.py)
 ```
+
+## Library-Specific Examples
+
+- [auto-sklearn](src/automl/auto_sklearn_/README.md)
 
 ## Concepts to Learn
 
@@ -116,7 +121,6 @@ Programming:
 conda activate ml
 pip install -r requirements.txt
 python -W ignore -m pytest  # run tests in current environment
-python -m nox --noxfile=tests/noxfile.py  # run tests in multiple Python environments
 ```
 
 ## Pre-commit

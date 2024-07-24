@@ -14,8 +14,8 @@ from sklearn.model_selection import (
 )
 from sklearn.tree import DecisionTreeRegressor
 
-from src.e1_create_dataset import create_regression_dataset
-from src.e3_metrics import regression_scores
+from ml.e1_create_dataset import create_regression_dataset
+from ml.e3_metrics import regression_scores
 
 # Recommended reading: https://scikit-learn.org/stable/modules/grid_search.html#grid-search
 

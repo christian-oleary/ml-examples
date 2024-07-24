@@ -6,9 +6,9 @@ from sklearn.feature_selection import SelectKBest, f_regression
 from sklearn.model_selection import RandomizedSearchCV, train_test_split
 from sklearn.pipeline import Pipeline
 
-from src.e1_create_dataset import create_regression_dataset
-from src.e3_metrics import regression_scores
-from src.e8_handling_models import regression_models
+from ml.e1_create_dataset import create_regression_dataset
+from ml.e3_metrics import regression_scores
+from ml.e8_handling_models import regression_models
 
 
 def build_pipeline(model_name, debug=False):

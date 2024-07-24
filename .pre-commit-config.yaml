@@ -6,11 +6,6 @@ repos:
         -   id: black
             args: ["--config=./pyproject.toml"]
 
-    # -   repo: https://github.com/pycqa/isort
-    #     rev: 5.10.1
-    #     hooks:
-    #     -   id: isort
-
     -   repo: https://github.com/pre-commit/pre-commit-hooks
         rev: v3.2.0
         hooks:
@@ -26,7 +21,7 @@ repos:
         -   id: detect-private-key
         -   id: end-of-file-fixer
         -   id: mixed-line-ending
-        # -   id: requirements-txt-fixer
+        -   id: requirements-txt-fixer
         -   id: trailing-whitespace
 
     -   repo: https://github.com/pre-commit/pygrep-hooks
@@ -67,5 +62,5 @@ repos:
             args: [
                 "--rcfile=.pylintrc",
                 "--disable=import-error",
-                "--ignore=src/tests"
+                "--ignore=tests"
             ]

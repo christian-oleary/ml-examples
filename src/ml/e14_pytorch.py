@@ -9,7 +9,7 @@ from torch import nn
 from torch import optim
 from torch.utils import data
 
-from src.e1_create_dataset import create_regression_dataset
+from ml.e1_create_dataset import create_regression_dataset
 
 
 class RnnModel(nn.Module):

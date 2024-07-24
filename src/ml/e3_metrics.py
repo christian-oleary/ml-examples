@@ -15,7 +15,7 @@ from sklearn.metrics import (
     r2_score,
 )
 
-from src.e2_train_models import train_classification, train_regression
+from ml.e2_train_models import train_classification, train_regression
 
 
 def regression_scores(actual: np.ndarray, predicted: np.ndarray):

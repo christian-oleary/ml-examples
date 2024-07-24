@@ -34,8 +34,8 @@ from sklearn.neural_network import MLPRegressor
 from sklearn.svm import SVC, SVR, LinearSVR, NuSVR
 from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor, ExtraTreeRegressor
 
-from src.e1_create_dataset import create_regression_dataset
-from src.e3_metrics import regression_scores
+from ml.e1_create_dataset import create_regression_dataset
+from ml.e3_metrics import regression_scores
 
 
 example = {

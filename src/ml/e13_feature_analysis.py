@@ -8,7 +8,7 @@ from scipy import stats
 import seaborn as sns
 from sklearn.feature_selection import SelectKBest, f_regression, mutual_info_regression
 
-from src.e1_create_dataset import create_regression_dataset
+from ml.e1_create_dataset import create_regression_dataset
 
 
 # For an example of using feature selection in a pipeline, see example e9_pipelines.py
