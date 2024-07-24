@@ -10,7 +10,7 @@
 docker build -f ./src/automl/auto_sklearn_/Dockerfile -t auto-sklearn .
 
 # Run container from image
-docker run -td --rm --name auto-sklearn -p 8000:8000 --mount type=bind,src=$PWD,target=/usr/src/ml-examples auto-sklearn
+docker run -td --rm --name auto-sklearn -p 8000:8000 --memory=4g --mount type=bind,src=$PWD,target=/usr/src/ml-examples auto-sklearn
 
 # Open terminal inside container
 docker exec -it auto-sklearn bash

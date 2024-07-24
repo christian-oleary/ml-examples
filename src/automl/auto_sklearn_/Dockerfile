@@ -11,6 +11,7 @@ RUN pip install Cython==0.29.36
 RUN pip install numpy==1.26.4
 RUN pip install scikit-learn==0.24
 RUN pip install auto-sklearn
+RUN pip install matplotlib
 
 # Set working directory
 ENV WORKDIR=/usr/src/ml-examples

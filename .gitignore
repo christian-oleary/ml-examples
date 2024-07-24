@@ -37,6 +37,7 @@ logs/
 papers/
 repositories/
 results/
+tmp/
 
 # Models
 *.h5
