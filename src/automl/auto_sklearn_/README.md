@@ -10,13 +10,13 @@
 docker build -f ./src/automl/auto_sklearn_/Dockerfile -t auto-sklearn .
 
 # Run container from image
-docker run -td --rm --name auto-sklearn -p 8000:8000 --mount type=bind,src=$PWD,target=/usr/src/ml/ml-examples auto-sklearn
+docker run -td --rm --name auto-sklearn -p 8000:8000 --mount type=bind,src=$PWD,target=/usr/src/ml-examples auto-sklearn
 
 # Open terminal inside container
 docker exec -it auto-sklearn bash
 
 # View project files
-cd /usr/src/ml/ml-examples
+cd /usr/src/ml-examples
 ls -la && pwd
 
 # Run code using python3 commands
