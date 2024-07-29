@@ -55,10 +55,6 @@ tmp/
 # AWS
 *.pem
 
-# Visual Studio Code
-.vscode/**/*
-!.vscode/extensions.json
-
 # Generated
 bin
 cache/
@@ -66,6 +62,20 @@ share
 *.dll
 *.exe
 *.dot
+
+# LaTeX
+*.bbg
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.gz
+*.lof
+*.log
+*.lot
+*.out
+*.pdf
+*.toc
 
 # MacOS
 .DS_Store
@@ -84,7 +94,8 @@ pids
 *.db-journal
 
 # Visual Studio Code
-.vscode
+.vscode/**/*
+!.vscode/extensions.json
 
 ###########################
 # Python
